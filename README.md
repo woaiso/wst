@@ -1,2 +1,4 @@
 # wst
-woaiso system
+
+Express + Typescript +  Webpack +  React
+
