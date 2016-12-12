@@ -2,11 +2,16 @@
  * webpack 基础配置
  */
 import * as path from 'path';
-
 import { CWD, BUILD, CWD_NODE_MODULES, NODE_MODULES, SOURCE_PATH, STATIC_PATH } from './path';
+
+import * as  ExtractTextPlugin from 'extract-text-webpack-plugin';
+
+
+const extractCSS = new ExtractTextPlugin('css/[name].css');
 
 export class WebpackConfig {
     cache?: boolean = true
+    devtool = "source-map"
     entry = {
         main: "index.tsx"
     }
@@ -31,8 +36,15 @@ export class WebpackConfig {
                 loader: "ts-loader"
             },
             {
+                test: /\.js$/,
+                loader: "source-map-loader"
+            },
+            {
                 test: /\.css$/,
-                loaders: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
+                loader: extractCSS.extract({
+                    fallbackLoader: "style-loader",
+                    loader: ['css-loader?importLoaders=1', 'postcss-loader']
+                })
             },
             {
                 test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
@@ -75,4 +87,7 @@ export class WebpackConfig {
             }
         ]
     }
+    plugins = [
+        extractCSS
+    ]
 } 

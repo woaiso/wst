@@ -7,10 +7,13 @@
 import * as path from 'path';
 import { HotModuleReplacementPlugin, NoErrorsPlugin } from 'webpack';
 import { WebpackConfig } from './webpack.core';
+import * as merge from 'webpack-merge';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+
+
 import { CWD, SOURCE_PATH, STATIC_PATH } from './path';
 
-class WebpackDev extends WebpackConfig {
+class WebpackDev {
     devServer = {
         contentBase: path.join(CWD, "dist/client"),
         compress: true,
@@ -88,6 +91,9 @@ class WebpackDev extends WebpackConfig {
     ]
 
 }
-
-const devConfig = new WebpackDev()
-export default devConfig;
+//核心配置
+const coreConfig = new WebpackConfig();
+//开发环境配置
+const devConfig = new WebpackDev();
+const config = merge(coreConfig, devConfig);
+export default config;

@@ -1,4 +1,8 @@
-body{
-    background: #000;
-    color: rgba(127,255,255,0.75);
+
+:root {
+  --font-text: "FF DIN", sans-serif;
+  --font-weight: 300;
+  --line-height: 1.5;
+  background: #000;
+  color: rgba(127,255,255,0.75);
 }
