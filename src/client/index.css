@@ -6,3 +6,11 @@
   background: #000;
   color: rgba(127,255,255,0.75);
 }
+.container{
+  display: flex;
+  box-sizing: content-box;
+}
+
+:fullscreen a {
+    display: flex
+}

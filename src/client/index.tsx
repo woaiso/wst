@@ -8,6 +8,7 @@ class Bootstrap extends React.Component<any, any> {
         return (
             <div>
                 I'm From Typescript React Hello Test
+                <a href="javascript:;" >hello</a>
             </div>
         );
     }

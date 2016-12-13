@@ -18,7 +18,7 @@ export class WebpackConfig {
     output = {
         path: BUILD,
         filename: '[name].bundle.js',
-        sourceMapFilename: '[name].map',
+        sourceMapFilename: '[name].bundle.map',
         chunkFilename: '[id].chunk.js'
     }
     resolve = {
@@ -28,6 +28,10 @@ export class WebpackConfig {
             CWD_NODE_MODULES,
             NODE_MODULES
         ]
+    }
+    externals = {
+        'react': 'React',
+        'react-dom': 'ReactDOM'
     }
     module = {
         rules: [
