@@ -4,10 +4,10 @@
 
 // fix process not found
 declare const process: {
-    env: {
-        NODE_ENV: string
-    },
-    cwd: any
+	env: {
+		NODE_ENV: string
+	},
+	cwd: any
 };
 
 declare const __dirname: string
