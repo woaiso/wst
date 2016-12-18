@@ -1,0 +1,49 @@
+{
+	"rules": {
+		"indent": [
+			true,
+			"tabs"
+		],
+		"arrow-parens": true,
+		"no-unused-expression": true,
+		"no-duplicate-variable": true,
+		"curly": true,
+		"class-name": true,
+		"semicolon": [
+			"always",
+			"ignore-bound-class-methods"
+		],
+		"trailing-comma": [
+			false
+		],
+		"triple-equals": true,
+		"quotemark": [
+			true,
+			"single",
+			"jsx-double"
+		],
+		"only-arrow-functions": [
+			true,
+			"allow-declarations"
+		],
+		"member-ordering": [
+			false
+		],
+		"ordered-imports": [
+			false
+		],
+		"no-console": [
+			true
+		],
+		"object-literal-key-quotes": [
+			false
+		],
+		"object-literal-sort-keys": false,
+		"interface-name": [
+			false
+		],
+		"max-line-length": [
+			false
+		]
+	}
+}

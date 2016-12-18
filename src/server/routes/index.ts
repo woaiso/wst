@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { BaseRoute } from "./route";
+import { NextFunction, Request, Response, Router } from 'express';
+import { BaseRoute } from './route';
 
 
 /**
@@ -16,15 +16,15 @@ export class IndexRoute extends BaseRoute {
    * @method create
    * @static
    */
-  public static create(router: Router) {
-    //log
-    console.log("[IndexRoute::create] Creating index route.");
+	public static create(router: Router) {
+		//log
+		console.log('[IndexRoute::create] Creating index route.');
 
-    //add home page route
-    router.get("/", (req: Request, res: Response, next: NextFunction) => {
-      new IndexRoute().index(req, res, next);
-    });
-  }
+		//add home page route
+		router.get('/', (req: Request, res: Response, next: NextFunction) => {
+			new IndexRoute().index(req, res, next);
+		});
+	}
 
   /**
    * Constructor
@@ -32,9 +32,9 @@ export class IndexRoute extends BaseRoute {
    * @class IndexRoute
    * @constructor
    */
-  constructor() {
-    super();
-  }
+	constructor() {
+		super();
+	}
 
   /**
    * The home page route.
@@ -45,16 +45,16 @@ export class IndexRoute extends BaseRoute {
    * @param res {Response} The express Response object.
    * @next {NextFunction} Execute the next method.
    */
-  public index(req: Request, res: Response, next: NextFunction) {
-    //set custom title
-    this.title = "Home | Tour of Heros";
+	public index(req: Request, res: Response, next: NextFunction) {
+		//set custom title
+		this.title = 'Home | Tour of Heros';
 
-    //set options
-    let options: Object = {
-      "message": "Welcome to the Tour of Heros"
-    };
+		//set options
+		let options: Object = {
+			'message': 'Welcome to the Tour of Heros'
+		};
 
-    //render template
-    this.render(req, res, "index", options);
-  }
+		//render template
+		this.render(req, res, 'index', options);
+	}
 }
