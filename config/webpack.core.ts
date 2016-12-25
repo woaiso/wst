@@ -18,7 +18,7 @@ export class WebpackConfig {
 	output = {
 		path: BUILD,
 		filename: '[name].bundle.js',
-		sourceMapFilename: '[name].bundle.map',
+		sourceMapFilename: '[file].map',
 		chunkFilename: '[id].chunk.js'
 	}
 	resolve = {
@@ -47,7 +47,7 @@ export class WebpackConfig {
 				test: /\.css$/,
 				loader: extractCSS.extract({
 					fallbackLoader: 'style-loader',
-					loader: ['css-loader?importLoaders=1', 'postcss-loader']
+					loader: ['css-loader?importLoaders=1&sourceMap', 'postcss-loader']
 				})
 			},
 			{

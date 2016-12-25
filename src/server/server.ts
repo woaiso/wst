@@ -14,6 +14,7 @@ import methodOverride = require('method-override');
 
 import { IndexRoute } from './routes/index';
 
+const viewsPath = path.resolve(process.cwd(), 'src/server/views');
 
 export class Server {
 	public app: express.Application;
@@ -54,10 +55,10 @@ export class Server {
      */
 	public config() {
 		//add static paths
-		this.app.use(express.static(path.join(__dirname, 'public')));
+		this.app.use('/static', express.static(path.join(process.cwd(), 'public')));
 
 		//configure pug
-		this.app.set('views', path.join(__dirname, 'views'));
+		this.app.set('views', viewsPath);
 		this.app.set('view engine', 'ejs');
 
 		//use logger middlware

@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp",
-    "start": "npm run dev && nodemon ./bin/www",
+    "start": "npm run dev",
     "webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.ts",
     "webpack:build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.ts",
     "test": "jest --coverage"
@@ -60,6 +60,8 @@
     "enzyme-to-json": "^1.4.5",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-nodemon": "^2.2.1",
     "gulp-typescript": "^3.1.3",
     "html-webpack-plugin": "^2.24.1",
     "jest": "^18.0.0",
