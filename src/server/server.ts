@@ -12,6 +12,8 @@ import * as path from 'path';
 import errorHandler = require('errorhandler');
 import methodOverride = require('method-override');
 
+import { bootup } from './mock/bootup';
+
 import { IndexRoute } from './routes/index';
 
 const viewsPath = path.resolve(process.cwd(), 'src/server/views');
@@ -100,6 +102,10 @@ export class Server {
 
 		//IndexRoute
 		IndexRoute.create(router);
+
+		router.post('/api/starmap/bootup', (req, res, next) => {
+			res.json(bootup);
+		});
 
 		//use router middleware
 		this.app.use(router);
