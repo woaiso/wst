@@ -11,5 +11,5 @@ WST is an woaiso tools kit
 - postcss
 
 ## todos
-- [ ] add babel
+- [x] add babel
 - [ ] test with webpack
