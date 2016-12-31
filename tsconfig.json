@@ -1,21 +1,30 @@
 {
-  "include": [
-    "./src/**/*"
-  ],
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "jsx": "react",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noEmitOnError": true,
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "sourceMap": true,
-    "target": "es5"
-  },
-  "exclude": [
-    "node_modules",
-    "build",
-    ".vscode"
-  ]
+	"include": [
+		"./src/**/*"
+	],
+	"compilerOptions": {
+		"outDir": "./lib/",
+		"module": "commonjs",
+		"target": "es6",
+		"jsx": "react",
+		"noEmitOnError": true,
+		"preserveConstEnums": true,
+		"removeComments": false,
+		"sourceMap": false,
+		"noImplicitAny": false,
+		"suppressImplicitAnyIndexErrors": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"noUnusedParameters": true,
+		"alwaysStrict": true,
+		"newLine": "LF"
+	},
+	"exclude": [
+		"node_modules",
+		"build",
+		"__spec__",
+		"**/*.spec.ts",
+		"**/*.spec.tsx",
+		".vscode"
+	]
 }

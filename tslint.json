@@ -1,4 +1,7 @@
 {
+	"extends": [
+		"tslint-react"
+	],
 	"rules": {
 		"indent": [
 			true,
@@ -43,6 +46,15 @@
 			false
 		],
 		"max-line-length": [
+			false
+		],
+		"jsx-no-multiline-js": [
+			false
+		],
+		"jsx-wrap-multiline": [
+			false
+		],
+		"jsx-no-lambda": [
 			false
 		]
 	}
