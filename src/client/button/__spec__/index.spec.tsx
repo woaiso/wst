@@ -2,7 +2,6 @@ import * as  React from 'react';
 import { mount, render } from 'enzyme';
 import Button from '..';
 
-
 describe('<Button />', () => {
 	it('renders one `.button`s', () => {
 		const wrapper = render(<Button />);

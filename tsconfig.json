@@ -10,7 +10,7 @@
 		"noEmitOnError": true,
 		"preserveConstEnums": true,
 		"removeComments": false,
-		"sourceMap": false,
+		"sourceMap": true,
 		"noImplicitAny": false,
 		"suppressImplicitAnyIndexErrors": true,
 		"experimentalDecorators": true,
