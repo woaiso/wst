@@ -19,6 +19,7 @@ import * as path from 'path';
 
 export const CWD = process.cwd();
 export const BUILD = path.join(CWD, 'dist/client');
+export const DIST = path.join(CWD, 'dist');
 
 export const CWD_NODE_MODULES = path.join(CWD, 'node_modules');
 export const NODE_MODULES = path.join(__dirname, '../node_modules');

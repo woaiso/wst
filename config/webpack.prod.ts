@@ -10,10 +10,11 @@ import { HotModuleReplacementPlugin, NoErrorsPlugin } from 'webpack';
 import { WebpackConfig } from './webpack.core';
 import * as merge from 'webpack-merge';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as CleanWebpackPlugin from 'clean-webpack-plugin';
 
 
 
-import { CWD, SOURCE_PATH, STATIC_PATH } from './path';
+import { CWD, SOURCE_PATH, STATIC_PATH, DIST } from './path';
 
 class WebpackProd {
     /**
@@ -22,6 +23,9 @@ class WebpackProd {
      * @memberOf WebpackDev
      */
 	plugins = [
+		new CleanWebpackPlugin(['client'], {
+			root: DIST
+		}),
 		new webpack.DefinePlugin({
 			'process.env': {
 				'NODE_ENV': '"production"'
@@ -38,7 +42,7 @@ class WebpackProd {
 			hash: true, //if true then append a unique webpack compilation hash to all included scripts and CSS files. This is useful for cache busting.
 			cache: true, //true (default) try to emit the file only if it was changed.
 			showErrors: true, // if true (default) errors details will be written into the HTML page.
-			chunks: ['main'],
+			chunks: ['vendor', 'main'],
 			chunksSortMode: 'auto', // Allows to control how chunks should be sorted before they are included to the html. Allowed values: 'none' | 'auto' | 'dependency' | {function} - default: 'auto'
 			excludeChunks: ['unit-test'],
 			xhtml: false, //If true render the link tags as self-closing, XHTML compliant. Default is false,
@@ -48,7 +52,7 @@ class WebpackProd {
 			compress: {
 				warnings: false
 			}
-		})
+		}),
 	]
 	//https://webpack.js.org/configuration/stats/
 	stats = {
@@ -56,7 +60,8 @@ class WebpackProd {
 		chunks: false,
 		chunkModules: false,
 		children: false,
-		modules: false
+		modules: false,
+		source: false
 	};
 }
 //核心配置

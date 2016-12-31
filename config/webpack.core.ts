@@ -2,6 +2,7 @@
  * webpack 基础配置
  */
 import * as path from 'path';
+import * as webpack from 'webpack';
 import { CWD, BUILD, CWD_NODE_MODULES, NODE_MODULES, SOURCE_PATH, STATIC_PATH } from './path';
 
 import * as  ExtractTextPlugin from 'extract-text-webpack-plugin';
@@ -13,11 +14,12 @@ export class WebpackConfig {
 	cache?: boolean = true
 	devtool = 'source-map'
 	entry = {
-		main: 'index.tsx'
+		main: 'index.tsx',
+		vendor: ['react', 'react-dom']
 	}
 	output = {
 		path: BUILD,
-		filename: '[name].bundle.js',
+		filename: '[name].[chunkhash:6].js',
 		sourceMapFilename: '[file].map',
 		chunkFilename: '[id].chunk.js'
 	}
@@ -28,10 +30,6 @@ export class WebpackConfig {
 			CWD_NODE_MODULES,
 			NODE_MODULES
 		]
-	}
-	externals = {
-		'react': 'React',
-		'react-dom': 'ReactDOM'
 	}
 	module = {
 		rules: [
@@ -92,6 +90,11 @@ export class WebpackConfig {
 		]
 	}
 	plugins = [
-		extractCSS
+		extractCSS,
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor',
+			filename: 'vendor.js',
+			minChunks: Infinity
+		})
 	]
 }
