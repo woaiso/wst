@@ -5,8 +5,9 @@
 	"compilerOptions": {
 		"outDir": "./lib/",
 		"module": "commonjs",
+		"moduleResolution": "node",
 		"target": "es6",
-		"jsx": "react",
+		"jsx": "preserve",
 		"noEmitOnError": true,
 		"preserveConstEnums": true,
 		"removeComments": false,
@@ -19,6 +20,9 @@
 		"alwaysStrict": true,
 		"newLine": "LF"
 	},
+	"files": [
+		"./types/declare.d.ts"
+	],
 	"exclude": [
 		"node_modules",
 		"build",

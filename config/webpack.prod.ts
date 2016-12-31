@@ -12,8 +12,6 @@ import * as merge from 'webpack-merge';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as CleanWebpackPlugin from 'clean-webpack-plugin';
 
-
-
 import { CWD, SOURCE_PATH, STATIC_PATH, DIST } from './path';
 
 class WebpackProd {

@@ -10,6 +10,13 @@ import * as  ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const extractCSS = new ExtractTextPlugin('css/[name].css');
 
+const ts = {
+	module: 'es2015',
+	compilerOptions: {
+		module: 'es2015'
+	}
+};
+
 export class WebpackConfig {
 	cache?: boolean = true
 	devtool = 'source-map'
@@ -19,7 +26,7 @@ export class WebpackConfig {
 	}
 	output = {
 		path: BUILD,
-		filename: '[name].[chunkhash:6].js',
+		filename: '[name].js',
 		sourceMapFilename: '[file].map',
 		chunkFilename: '[id].chunk.js'
 	}
@@ -35,7 +42,11 @@ export class WebpackConfig {
 		rules: [
 			{
 				test: /\.(tsx|ts)?$/,
-				loader: 'babel-loader!ts-loader'
+				loader: 'babel-loader!ts-loader?' + JSON.stringify(ts)
+			},
+			{
+				test: /\.jsx$/,
+				loader: 'babel-loader'
 			},
 			{
 				test: /\.js$/,
@@ -46,6 +57,22 @@ export class WebpackConfig {
 				loader: extractCSS.extract({
 					fallbackLoader: 'style-loader',
 					loader: ['css-loader?importLoaders=1&sourceMap', 'postcss-loader']
+				})
+			},
+			{
+				test: /\.less$/,
+				loader: ExtractTextPlugin.extract({
+					fallbackLoader: 'style-loader',
+					loader: [
+						{
+							loader: 'css-loader',
+							options: { sourceMap: true, importLoaders: 1 }
+						},
+						{
+							loader: 'less-loader',
+							options: { sourceMap: true }
+						}
+					]
 				})
 			},
 			{

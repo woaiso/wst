@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import './index.css'
-
+import { Button } from 'antd';
+import './index.css';
 
 class Bootstrap extends React.Component<any, any> {
 	render() {
@@ -9,6 +9,7 @@ class Bootstrap extends React.Component<any, any> {
 			<div>
 				I'm From Typescript React Hello Test
 				<a href="javascript:;" >hello</a>
+				<Button>Hello</Button>
 			</div>
 		);
 	}
