@@ -8,7 +8,7 @@
     "start": "npm run dev",
     "webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.ts",
     "webpack:build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.ts",
-    "test": "jest --coverage && codecov -f coverage/*.json -t 265cdb0b-eee7-4834-9b18-08f1db3b14f3"
+    "test": "jest --coverage"
   },
   "jest": {
     "coverageReporters": [
