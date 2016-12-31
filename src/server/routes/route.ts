@@ -47,7 +47,7 @@ export class BaseRoute {
    * @param options {Object} Additional options to append to the view's local scope.
    * @return void
    */
-	public render(req: Request, res: Response, view: string, options?: Object) {
+	public render(_req: Request, res: Response, view: string, options?: Object) {
 		//add constants
 		res.locals.BASE_URL = '/';
 

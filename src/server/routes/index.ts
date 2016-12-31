@@ -45,7 +45,7 @@ export class IndexRoute extends BaseRoute {
    * @param res {Response} The express Response object.
    * @next {NextFunction} Execute the next method.
    */
-	public index(req: Request, res: Response, next: NextFunction) {
+	public index(req: Request, res: Response, _next: NextFunction) {
 		//set custom title
 		this.title = 'Home | Tour of Heros';
 

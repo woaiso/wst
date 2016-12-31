@@ -2,7 +2,7 @@
 
 //https://github.com/michael-ciniawsky/postcss-load-config
 module.exports = {
-  map: 'inline',
+  map: false,//'inline',
   plugins: {
     'postcss-import': {},
     'postcss-cssnext': {

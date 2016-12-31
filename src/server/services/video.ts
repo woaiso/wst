@@ -27,7 +27,7 @@ class Video {
 				let $ = cheerio.load(body);
 				const channels = $('li');
 				channels.each((index, item) => {
-					console.log($(item).find('img').attr('src'))
+					console.log($(item).find('img').attr('src'), index)
 				})
 			});
 	}

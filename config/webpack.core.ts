@@ -37,7 +37,7 @@ export class WebpackConfig {
 		rules: [
 			{
 				test: /\.(tsx|ts)?$/,
-				loader: 'ts-loader'
+				loader: 'babel-loader!ts-loader'
 			},
 			{
 				test: /\.js$/,

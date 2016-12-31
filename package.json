@@ -1,13 +1,14 @@
 {
-  "name": "yes",
+  "name": "woaiso-system",
   "version": "0.0.1",
   "description": "woaiso system",
   "main": "index.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development gulp",
     "start": "npm run dev",
-    "webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.ts",
-    "webpack:build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.ts",
+    "build": "npm run webpack:build",
+    "webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.ts --progress",
+    "webpack:build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.ts --progress",
     "test": "jest --coverage"
   },
   "jest": {
@@ -58,6 +59,11 @@
     "@types/react-dom": "^0.14.19",
     "@types/webpack-merge": "0.0.4",
     "autoprefixer": "^6.5.3",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2016": "^6.16.0",
+    "babel-preset-es2017": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
     "cheerio": "^0.22.0",
     "codecov": "^1.0.1",
     "cross-env": "^3.1.3",

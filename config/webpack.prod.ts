@@ -50,6 +50,14 @@ class WebpackProd {
 			}
 		})
 	]
+	//https://webpack.js.org/configuration/stats/
+	stats = {
+		assets: true,
+		chunks: false,
+		chunkModules: false,
+		children: false,
+		modules: false
+	};
 }
 //核心配置
 const coreConfig = new WebpackConfig();

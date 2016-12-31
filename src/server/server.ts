@@ -81,7 +81,7 @@ export class Server {
 		this.app.use(methodOverride());
 
 		//catch 404 and forward to error handler
-		this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+		this.app.use((err: any, _req: express.Request, _res: express.Response, next: express.NextFunction) => {
 			err.status = 404;
 			next(err);
 		});
@@ -103,7 +103,7 @@ export class Server {
 		//IndexRoute
 		IndexRoute.create(router);
 
-		router.post('/api/starmap/bootup', (req, res, next) => {
+		router.post('/api/starmap/bootup', (_req, res, _next) => {
 			res.json(bootup);
 		});
 
