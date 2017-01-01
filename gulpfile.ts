@@ -27,7 +27,7 @@ gulp.task('ts', [], () => {
 
 gulp.task('demon', ['ts'], () => {
 	nodemon({
-		script: './bin/www',
+		script: './dist/server/www.js',
 		cwd: __dirname,
 		watch: ['./src/server'],
 		ignore: ['node_modules/**'],
@@ -41,5 +41,11 @@ gulp.task('demon', ['ts'], () => {
 			console.log('restart');
 		})
 });
+
+gulp.task('server:build', ['clean:server'], () => {
+	gulp.src('./src/server/**/*.ts')
+		.pipe(tsProject())
+		.js.pipe(gulp.dest('./dist/server'));
+})
 
 gulp.task('default', ['demon'])

@@ -7,8 +7,7 @@ class Bootstrap extends React.Component<any, any> {
 	render() {
 		return (
 			<div>
-				I'm From Typescript React Hello Test
-				<a href="javascript:;" >hello</a>
+				<h1>I'm From Typescript React Hello Test</h1>
 				<Button>Hello</Button>
 			</div>
 		);

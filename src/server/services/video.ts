@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import * as http from 'http';
 var HttpsProxyAgent = require('https-proxy-agent');
 import * as cheerio from 'cheerio';
-import { seed } from './../../../seed';
+import { seed } from './../seed';
 
 class Video {
 	init() {

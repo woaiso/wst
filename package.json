@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "gulp",
     "start": "npm run dev",
-    "build": "npm run webpack:build",
+    "build": "npm run webpack:build && gulp server:build",
     "webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.ts --progress --colors",
     "webpack:build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.ts --progress --colors",
     "test": "jest --coverage"

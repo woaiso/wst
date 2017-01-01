@@ -11,12 +11,14 @@ import * as logger from 'morgan';
 import * as path from 'path';
 const errorHandler = require('errorhandler');
 const methodOverride = require('method-override');
+const ejs = require('ejs');
+const compression = require('compression')
 
 import { bootup } from './mock/bootup';
 
 import { IndexRoute } from './routes/index';
 
-const viewsPath = path.resolve(process.cwd(), 'src/server/views');
+const viewsPath = path.resolve(process.cwd(), 'dist/client');
 
 export class Server {
 	public app: express.Application;
@@ -57,11 +59,13 @@ export class Server {
      */
 	public config() {
 		//add static paths
-		this.app.use('/static', express.static(path.join(process.cwd(), 'public')));
+		this.app.use(compression())
+		this.app.use('/', express.static(path.join(process.cwd(), 'dist/client')));
 
 		//configure pug
 		this.app.set('views', viewsPath);
-		this.app.set('view engine', 'ejs');
+		this.app.set('view engine', 'html');
+		this.app.engine('html', ejs.renderFile);
 
 		//use logger middlware
 		this.app.use(logger('dev'));
@@ -99,14 +103,8 @@ export class Server {
 	public routes() {
 		let router: express.Router;
 		router = express.Router();
-
 		//IndexRoute
 		IndexRoute.create(router);
-
-		router.post('/api/starmap/bootup', (_req, res, _next) => {
-			res.json(bootup);
-		});
-
 		//use router middleware
 		this.app.use(router);
 	}
