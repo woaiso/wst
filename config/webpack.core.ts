@@ -11,7 +11,6 @@ import * as  ExtractTextPlugin from 'extract-text-webpack-plugin';
 const extractCSS = new ExtractTextPlugin('css/[name].css');
 
 const ts = {
-	module: 'es2015',
 	compilerOptions: {
 		module: 'es2015'
 	}
