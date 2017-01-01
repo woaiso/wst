@@ -21,6 +21,6 @@ test_script:
   # run tests
   - npm test
 
-# Don't actually build.
-build:
+# Build script
+build_script:
   - npm run build
