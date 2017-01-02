@@ -76,7 +76,7 @@ export class WebpackConfig {
 			},
 			{
 				test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-				loader: 'url',
+				loader: 'url-loader',
 				query: {
 					limit: 10000,
 					mimetype: 'application/font-woff'
@@ -84,7 +84,7 @@ export class WebpackConfig {
 			},
 			{
 				test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-				loader: 'url',
+				loader: 'url-loader',
 				query: {
 					limit: '10000',
 					mimetype: 'application/octet-stream'
@@ -92,26 +92,26 @@ export class WebpackConfig {
 			},
 			{
 				test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-				loader: 'file'
+				loader: 'url-loader'
 			},
 			{
 				test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-				loader: 'url',
+				loader: 'url-loader',
 				query: {
 					limit: '10000',
 					mimetype: 'application/svg+xml'
 				}
 			},
 			{
-				test: /\.(png|jpg)$/,
-				loader: 'url',
+				test: /\.(png|jpg|gif)$/,
+				loader: 'url-loader',
 				query: {
 					limit: 8192
 				}
 			},
 			{
 				test: /\.ico(\?v=\d+\.\d+\.\d+)?$/,
-				loader: 'url'
+				loader: 'url-loader'
 			}
 		]
 	}
