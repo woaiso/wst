@@ -18,7 +18,7 @@ export default class LoginPage extends React.Component<any, any>{
 	yRotation = 0.0;
 	zRotation = 0.0;
 	xSpeed = 0.0;
-	ySpeed = 0.0;
+	ySpeed = 0.01;
 	zTranslation = 0.0;
 	controls = null;
 	componentDidMount() {
@@ -90,7 +90,7 @@ export default class LoginPage extends React.Component<any, any>{
 		// the scene.
 		// After definition, the camera has to be added to the scene.
 		this.camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 100);
-		this.camera.position.set(0, 6, 6);
+		this.camera.position.set(0, 3, 20);
 		this.camera.lookAt(this.scene.position);
 		this.scene.add(this.camera);
 
@@ -249,8 +249,8 @@ export default class LoginPage extends React.Component<any, any>{
 		// neheTexture.mag_filter = THREE.LinearFilter;
 		//neheTexture.wrapS = THREE.RepeatWrapping;
 		//neheTexture.wrapT = THREE.RepeatWrapping;
-		//neheTexture.repeat.x = 2;
-		//neheTexture.repeat.y = 2
+		// glassTexture.repeat.x = 2;
+		// glassTexture.repeat.y = 2
 
 		var boxMaterial = new THREE.MeshLambertMaterial({
 			map: glassTexture,
@@ -260,6 +260,70 @@ export default class LoginPage extends React.Component<any, any>{
 			side: THREE.DoubleSide,
 			combine: THREE.MixOperation
 		});
+
+		var lineMaterial = new THREE.LineBasicMaterial({
+			color: 0x880E4F
+		});
+		var geometry = new THREE.Geometry();
+		geometry.vertices.push(new THREE.Vector3(-5, 0, 0));
+		geometry.vertices.push(new THREE.Vector3(0, 5, 0));
+		geometry.vertices.push(new THREE.Vector3(5, 0, 0));
+		geometry.vertices.push(new THREE.Vector3(0, 0, 5));
+		geometry.vertices.push(new THREE.Vector3(0, 5, 0));
+		geometry.vertices.push(new THREE.Vector3(0, 0, -5));
+
+
+		var line = new THREE.Line(geometry, lineMaterial);
+
+		var radius = 10;
+		var radials = 48;
+		var circles = 16;
+		var divisions = 128;
+		var gridHelper = new THREE.PolarGridHelper(radius, radials, circles, divisions, new THREE.Color(0x880E4F), new THREE.Color(0xE91E63));
+
+		this.scene.add(line);
+		this.scene.add(gridHelper);
+
+		var texture1 = new THREE.CanvasTexture(this.generateTexture(0, 0.5, 1), THREE.UVMapping);
+		var materials = [
+
+			new THREE.MeshNormalMaterial(),
+			new THREE.MeshDepthMaterial(),
+			new THREE.MeshBasicMaterial({ color: 0x0066ff, blending: THREE.AdditiveBlending, transparent: true, depthWrite: false }),
+			new THREE.MeshBasicMaterial({ color: 0xffaa00, wireframe: true }),
+			new THREE.MeshBasicMaterial({ map: texture1, fog: false }),
+			new THREE.MeshLambertMaterial({ color: 0xdddddd }),
+			new THREE.MeshPhongMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading }),
+			new THREE.MeshPhongMaterial({ color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.SmoothShading })
+
+		];
+
+		var geometryStar = new THREE.SphereGeometry(50, 32, 16);
+
+		for (var i = 0; i < 5000; i++) {
+
+			// random order
+			//var index = Math.floor( Math.random() * materials.length );
+
+			// sort by material / geometry
+			var index = Math.floor((i / 5000) * materials.length);
+
+			var material = materials[index];
+
+			var mesh = new THREE.Mesh(geometryStar, material);
+
+			mesh.position.x = Math.random() * 10000 - 5000;
+			mesh.position.y = Math.random() * 10000 - 5000;
+			mesh.position.z = Math.random() * 10000 - 5000;
+
+			//mesh.rotation.x = Math.random() * 360 * ( Math.PI / 180 );
+			mesh.rotation.y = Math.random() * 2 * Math.PI;
+
+			mesh.scale.x = mesh.scale.y = mesh.scale.z = Math.random() * 4 + 1;
+
+			this.scene.add(mesh);
+
+		}
 
 
 
@@ -282,6 +346,35 @@ export default class LoginPage extends React.Component<any, any>{
 		this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 
 		document.addEventListener('keydown', this.onDocumentKeyDown, false);
+	}
+	generateTexture(r, g, b) {
+
+		var canvas = document.createElement('canvas');
+		canvas.width = 256;
+		canvas.height = 256;
+
+		var context = canvas.getContext('2d');
+		var image = context.getImageData(0, 0, 256, 256);
+
+		var x = 0, y = 0, p;
+
+		for (var i = 0, j = 0, l = image.data.length; i < l; i += 4, j++) {
+
+			x = j % 256;
+			y = x == 0 ? y + 1 : y;
+			p = Math.floor(x ^ y);
+
+			image.data[i] = ~~p * r;
+			image.data[i + 1] = ~~p * g;
+			image.data[i + 2] = ~~p * b;
+			image.data[i + 3] = 255;
+
+		}
+
+		context.putImageData(image, 0, 0);
+
+		return canvas;
+
 	}
 	//监控按键
 	onDocumentKeyDown = (event: KeyboardEvent) => {
