@@ -93,6 +93,7 @@ export default class LoginPage extends React.Component<any, any>{
 		this.camera.position.set(0, 3, 20);
 		this.camera.lookAt(this.scene.position);
 		this.scene.add(this.camera);
+		console.log(this);
 
 		// Create the triangle (or any arbitrary geometry).
 		// 1. Instantiate the geometry object
