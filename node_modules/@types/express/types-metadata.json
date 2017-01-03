@@ -1,0 +1,31 @@
+{
+    "authors": "Boris Yankov <https://github.com/borisyankov/>",
+    "definitionFilename": "index.d.ts",
+    "libraryDependencies": [
+        "express-serve-static-core",
+        "serve-static"
+    ],
+    "moduleDependencies": [
+        "express-serve-static-core",
+        "serve-static"
+    ],
+    "libraryMajorVersion": 4,
+    "libraryMinorVersion": 0,
+    "libraryName": "Express 4.x",
+    "typingsPackageName": "express",
+    "projectName": "http://expressjs.com",
+    "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+    "sourceBranch": "types-2.0",
+    "kind": "ProperModule",
+    "globals": [
+        "e"
+    ],
+    "declaredModules": [
+        "express"
+    ],
+    "files": [
+        "index.d.ts"
+    ],
+    "hasPackageJson": false,
+    "contentHash": "cb2883774f9ff8bf15e334e96c3f98fd01820ea5da7fe8c99b6a1131b8816784"
+}

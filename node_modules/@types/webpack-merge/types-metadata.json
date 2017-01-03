@@ -1,0 +1,27 @@
+{
+    "authors": "Simon Hartcher <https://github.com/deevus>",
+    "definitionFilename": "index.d.ts",
+    "libraryDependencies": [
+        "webpack"
+    ],
+    "moduleDependencies": [
+        "webpack"
+    ],
+    "libraryMajorVersion": 0,
+    "libraryMinorVersion": 0,
+    "libraryName": "webpack-merge",
+    "typingsPackageName": "webpack-merge",
+    "projectName": "https://github.com/survivejs/webpack-merge",
+    "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+    "sourceBranch": "types-2.0",
+    "kind": "ModuleAugmentation",
+    "globals": [],
+    "declaredModules": [
+        "webpack-merge"
+    ],
+    "files": [
+        "index.d.ts"
+    ],
+    "hasPackageJson": false,
+    "contentHash": "ceb0895a5c8a53594345a3084fc6432befb81d2951e24f410dbd79a9de4002ed"
+}

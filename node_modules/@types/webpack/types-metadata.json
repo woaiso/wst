@@ -1,0 +1,28 @@
+{
+    "authors": "Qubo <https://github.com/tkqubo>",
+    "libraryDependencies": [
+        "tapable",
+        "uglify-js"
+    ],
+    "moduleDependencies": [
+        "tapable",
+        "uglify-js"
+    ],
+    "libraryMajorVersion": 2,
+    "libraryMinorVersion": 1,
+    "typeScriptVersion": "2.0",
+    "libraryName": "webpack",
+    "typingsPackageName": "webpack",
+    "projectName": "https://github.com/webpack/webpack",
+    "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+    "sourceBranch": "master",
+    "globals": [],
+    "declaredModules": [
+        "webpack"
+    ],
+    "files": [
+        "index.d.ts"
+    ],
+    "hasPackageJson": false,
+    "contentHash": "a4252e6549a6209d95b5b84eb833ccde97f6f43b6013780ddc2f2bf625368888"
+}
