@@ -1,6 +1,15 @@
+version: 1.0.{build}
 # Test against this version of Node.js
 environment:
   nodejs_version: "6.9.1"
+  access_token:
+    secure: 1dUl5BOVddfU3wVIBuFVGU9dRo+QhBiAaQ5hC2+Uz/NCD6aER5Fj5WdpLDhAzc3Y
+  github_email:
+    secure: UVX+C55+7TG8nr+jV98o781qibg98bnHXkp2Bz3ct9U=
+
+branches:
+  only:
+    - master
 
 #cache directory
 cache:
@@ -24,3 +33,22 @@ test_script:
 # Build script
 build_script:
   - npm run build
+
+# Deploy_script
+on_success:
+  # Switch branches to gh-pages, clean the folder, copy everything in from the Wyam output, and commit/push
+  # See http://www.appveyor.com/docs/how-to/git-push for more info
+  - git config --global credential.helper store
+  # EDIT your Git email and name
+  - git config --global user.email %github_email%
+  - git config --global user.name "woaiso"
+  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+  - git checkout gh-pages
+  - git rm -rf .
+  - xcopy ..\dist\client . /E
+  # EDIT your domain name or remove if not using a custom domain
+  # EDIT the origin of your repository - have to reset it here because AppVeyor pulls from SSH, but GitHub won't accept SSH pushes
+  - git remote set-url origin https://github.com/woaiso/wst.git
+  - git add -A
+  - git commit -m "deplyoy to github pages"
+  - git push
