@@ -53,5 +53,5 @@ on_success:
   # EDIT the origin of your repository - have to reset it here because AppVeyor pulls from SSH, but GitHub won't accept SSH pushes
   - git remote set-url origin https://github.com/woaiso/wst.git
   - git add -A
-  - git commit -m "deplyoy to github pages"
+  - git commit -m "deplyoy to github pages version:{build}"
   - git push
