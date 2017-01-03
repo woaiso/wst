@@ -6,6 +6,8 @@ environment:
     secure: 1dUl5BOVddfU3wVIBuFVGU9dRo+QhBiAaQ5hC2+Uz/NCD6aER5Fj5WdpLDhAzc3Y
   github_email:
     secure: UVX+C55+7TG8nr+jV98o781qibg98bnHXkp2Bz3ct9U=
+  version_code:
+    secure: 1.0.{build}
 
 branches:
   only:
@@ -53,5 +55,5 @@ on_success:
   # EDIT the origin of your repository - have to reset it here because AppVeyor pulls from SSH, but GitHub won't accept SSH pushes
   - git remote set-url origin https://github.com/woaiso/wst.git
   - git add -A
-  - git commit -m "deplyoy to github pages version:{build}"
+  - git commit -m "deplyoy to github pages version:%version_code%"
   - git push
