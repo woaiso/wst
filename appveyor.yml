@@ -43,6 +43,9 @@ on_success:
   - git config --global user.email %github_email%
   - git config --global user.name "woaiso"
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+  - xcopy package.json .\dist\client
+	- xcopy .gitignore .\dist\client
+	- xcopy README.md .\dist\client
   - git checkout gh-pages
   - git rm -rf .
   - xcopy .\dist\client . /E
