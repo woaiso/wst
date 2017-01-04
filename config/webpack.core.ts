@@ -112,6 +112,10 @@ export class WebpackConfig {
 			{
 				test: /\.ico(\?v=\d+\.\d+\.\d+)?$/,
 				loader: 'url-loader'
+			},
+			{
+				test: /\.(mp3|ogg)$/,
+				loader: 'file-loader'
 			}
 		]
 	}
