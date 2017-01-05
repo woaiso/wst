@@ -225,6 +225,9 @@ export default class LoginPage extends React.Component<any, any>{
 
 		var meter = this.scene.getObjectByName('cube' + 1, true);
 		(window as any).meter = meter;
+		this.createPentagram();
+		this.createCircle();
+		this.createShapes();
 	}
 	//监控按键
 	onDocumentKeyDown = (event: KeyboardEvent) => {
@@ -281,6 +284,60 @@ export default class LoginPage extends React.Component<any, any>{
 		if (this.controls !== null && typeof this.controls !== 'undefined') {
 			this.controls.update();
 		}
+	}
+	/**
+	 * 创建一个五角星
+	 */
+	createPentagram() {
+		//创建线条的材质
+		const material = new THREE.LineBasicMaterial({
+			color: 0x880E4F,
+			lineWidth: 2,
+			linecap: 'round', //ignored by WebGLRenderer
+			linejoin: 'round' //ignored by WebGLRenderer
+		});
+		//创建线条形状
+		const geometry = new THREE.Geometry();
+		var Base = { x: 0, y: 0 };
+		var radius = 4;
+		for (let i = 1; i <= 6; ++i) {
+			var th = i * 4 * Math.PI / 5;
+			var x = Base.x + radius * Math.sin(th);
+			var y = Base.y + radius - radius * Math.cos(th);
+			geometry.vertices.push(new THREE.Vector3(x, y, 0));
+		}
+		const line = new THREE.Line(geometry, material);
+		this.scene.add(line);
+	}
+	/**
+	 * 创建圆形
+	 */
+	createCircle() {
+		var geometry = new THREE.CircleGeometry(5, 24);
+		var material = new THREE.MeshBasicMaterial({ color: 0x009AD9 });
+		var circle = new THREE.Mesh(geometry, material);
+		circle.position.y = 5;
+		this.scene.add(circle);
+	}
+
+	createShapes() {
+		var heartShape = new THREE.Shape();
+
+		heartShape.moveTo(0, 0);
+		heartShape.bezierCurveTo(2.5, 2.5, 2.0, 0, 0, 0);
+		heartShape.bezierCurveTo(3.0, 0, 3.0, 3.5, 3.0, 3.5);
+		heartShape.bezierCurveTo(3.0, 5.5, 1.0, 7.7, 2.5, 9.5);
+		heartShape.bezierCurveTo(6.0, 7.7, 8.0, 5.5, 8.0, 3.5);
+		heartShape.bezierCurveTo(8.0, 3.5, 8.0, 0, 5.0, 0);
+		heartShape.bezierCurveTo(3.5, 0, 2.5, 2.5, 2.5, 2.5);
+
+		var extrudeSettings = { amount: 2, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+		var geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+
+		var mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial());
+		this.scene.add(mesh);
+
 	}
 	render() {
 		return (
