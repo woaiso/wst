@@ -2,9 +2,19 @@ import * as React from 'react';
 import * as THREE from 'three';
 import { Detector } from './../../threeUtils/detector';
 import './../../threeUtils/controls/orbitControls';
+import { createSky } from './skybox';
+import { decode } from './../../threeUtils/decoder';
+import ROME from './../../threeUtils/rome';
+import { createModel } from './../../threeUtils/createModel';
+import './../../threeUtils/loaders/animalLoader';
+
 const girls = require('./images/girl.jpg');
 const suger = require('./sounds/sugar.mp3');
 const logo = require('./images/logo.png');
+const robo_pigeon = require('./scenes/robo_pigeon.pack');
+const birdModel = require('./models/bird.json');
+
+
 export default class LoginPage extends React.Component<any, any>{
 	rootElement = 'loginPageRoot';
 	renderer: any = null;
@@ -93,13 +103,14 @@ export default class LoginPage extends React.Component<any, any>{
 		// The camera is moved 10 units towards the z axis to allow looking to the center of
 		// the scene.
 		// After definition, the camera has to be added to the scene.
-		this.camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 0.1, 100);
-		this.camera.position.set(0, 3, 20);
+		this.camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 300);
+		this.camera.position.set(0, 50, 200);
 		this.camera.lookAt(this.scene.position);
 		this.scene.add(this.camera);
 
 
-		var boxGeometry = new THREE.BoxGeometry(2.0, 2.0, 2.0);
+		var boxGeometry = new THREE.BoxGeometry(10, 20, 30);
+		console.log(boxGeometry);
 
 
 		const glassTexture = new THREE.TextureLoader().load(logo);
@@ -114,7 +125,7 @@ export default class LoginPage extends React.Component<any, any>{
 		// Create a mesh and insert the geometry and the material. Translate the whole mesh
 		// by 1.5 on the x axis and by 4 on the z axis and add the mesh to the scene.
 		this.boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-		this.boxMesh.position.set(0.0, 0.0, this.zTranslation);
+		this.boxMesh.position.set(50, 0.0, this.zTranslation);
 		this.scene.add(this.boxMesh);
 
 
@@ -146,7 +157,7 @@ export default class LoginPage extends React.Component<any, any>{
 
 		// Ambient light has no direction, it illuminates every object with the same
 		// intensity. If only ambient light is used, no shading effects will occur.
-		var ambientLight = new THREE.AmbientLight(0x101010, 1.0);
+		var ambientLight = new THREE.AmbientLight(0x333333);	// 0.2
 		this.scene.add(ambientLight);
 
 		// Directional light has a source and shines in all directions, like the sun.
@@ -158,37 +169,37 @@ export default class LoginPage extends React.Component<any, any>{
 
 		document.addEventListener('keydown', this.onDocumentKeyDown, false);
 
-		const MWIDTH = 0.2;
-		const MTHICKNESS = 0.3;
+		const MWIDTH = 2;
+		const MTHICKNESS = 1;
 
 		//播放器
 		//创建绿色柱条的形状
-		var cubeGeometry = new THREE.CubeGeometry(MWIDTH, 1, MTHICKNESS);
+		var cubeGeometry = new THREE.CubeGeometry(MWIDTH, 10, MTHICKNESS);
 		//创建绿色柱条的材质
 		var cubeMaterial = new THREE.MeshPhongMaterial({
 			color: 0x880E4F,
 			ambient: 0x880E4F,
 			specular: 0x880E4F,
 			shininess: 20,
-			reflectivity: 5.5
+			reflectivity: 55
 		});
 		//创建白色盖子的形状
-		var capGeometry = new THREE.CubeGeometry(MWIDTH, 0.05, MTHICKNESS);
+		var capGeometry = new THREE.CubeGeometry(MWIDTH, 1, MTHICKNESS);
 		//创建白色盖子的材质
 		var capMaterial = new THREE.MeshPhongMaterial({
 			color: 0xffffff,
 			ambient: 0xffffff,
 			specular: 0xffffff,
 			shininess: 20,
-			reflectivity: 5.5
+			reflectivity: 55
 		});
 		const METERNUM = this.METERNUM;
-		const GAP = 0.3;
+		const GAP = 3; //间隔
 		//创建一字排开的柱条和盖子，并添加到场景中
 		for (var i = METERNUM - 1; i >= 0; i--) {
 			var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 			cube.position.x = -METERNUM * (MWIDTH + GAP) / 2 + (MWIDTH + GAP) * i;
-			cube.position.y = -0.2;
+			cube.position.y = 0;
 			cube.position.z = 0;
 			cube.castShadow = true;
 			cube.name = 'cube' + i;
@@ -226,8 +237,8 @@ export default class LoginPage extends React.Component<any, any>{
 		var meter = this.scene.getObjectByName('cube' + 1, true);
 		(window as any).meter = meter;
 		this.createPentagram();
-		this.createCircle();
-		this.createShapes();
+		createSky(this.scene);
+		this.createBrid();
 	}
 	//监控按键
 	onDocumentKeyDown = (event: KeyboardEvent) => {
@@ -263,18 +274,23 @@ export default class LoginPage extends React.Component<any, any>{
 			//更新每根柱条的高度
 			for (var i = 0; i < METERNUM; i++) {
 				var value = array[i * step] / 4;
-				value = value < 1 ? 1 : value;
+				value = value < 1 ? 1 : value/3;
 				var meter = this.scene.getObjectByName('cube' + i, true),
 					cap = this.scene.getObjectByName('cap' + i, true);
-				meter.scale.y = value / 10;
+
+				meter.geometry.vertices[0].y=value;
+				meter.geometry.vertices[1].y=value;
+				meter.geometry.vertices[4].y=value;
+				meter.geometry.vertices[5].y=value;
+				// meter.scale.y = value;
 				//计算柱条边沿尺寸以获得高度
 				meter.geometry.computeBoundingBox();
-				let height = (meter.geometry.boundingBox.max.y - meter.geometry.boundingBox.min.y) * value / 10;
+				let height = (meter.geometry.boundingBox.max.y - meter.geometry.boundingBox.min.y) * value / 5;
 				//将柱条高度与盖子高度进行比较
 				if (height / 2 > cap.position.y) {
 					cap.position.y = height / 2;
 				} else {
-					cap.position.y -= 0.02;
+					cap.position.y -= 0.05;
 				};
 			}
 		};
@@ -309,36 +325,44 @@ export default class LoginPage extends React.Component<any, any>{
 		const line = new THREE.Line(geometry, material);
 		this.scene.add(line);
 	}
+
 	/**
-	 * 创建圆形
+	 * 渲染一只鸟
 	 */
-	createCircle() {
-		var geometry = new THREE.CircleGeometry(5, 24);
-		var material = new THREE.MeshBasicMaterial({ color: 0x009AD9 });
-		var circle = new THREE.Mesh(geometry, material);
-		circle.position.y = 5;
-		this.scene.add(circle);
+	createBrid() {
+		var light = [];
+		var baseLoader = new THREE.JSONLoader();
+		const model = baseLoader.parse(birdModel);
+		const geometry = model.geometry;
+		var material = new THREE.MultiMaterial(model.materials);
+		var object = new THREE.Mesh(geometry, material);
+		this.scene.add(object);
+		light[0] = new THREE.AmbientLight(0x608090);
+
+		light[1] = new THREE.DirectionalLight(0xffcc99, 0.6);
+		light[1].position.set(0, 2, 1);
+
+		light[2] = new THREE.DirectionalLight(0xffffff, 1);
+		light[2].position.set(-1, 0, 0.5);
+
+		this.scene.add(light[0]);
+		this.scene.add(light[1]);
+
+		// //添加动画
+		// const morphObject = new ROME.Animal(geometry, true);
+		// morphObject.mesh.updateMatrix();
+		// morphObject.mesh.update();
+		// const nameA = morphObject.availableAnimals[0];
+		// let nameB;
+		// if (morphObject.availableAnimals.length === 1) {
+		// 	nameB = morphObject.availableAnimals[0];
+		// } else {
+		// 	nameB = morphObject.availableAnimals[1];
+		// }
+		// morphObject.play(nameA, nameB);
 	}
 
-	createShapes() {
-		var heartShape = new THREE.Shape();
 
-		heartShape.moveTo(0, 0);
-		heartShape.bezierCurveTo(2.5, 2.5, 2.0, 0, 0, 0);
-		heartShape.bezierCurveTo(3.0, 0, 3.0, 3.5, 3.0, 3.5);
-		heartShape.bezierCurveTo(3.0, 5.5, 1.0, 7.7, 2.5, 9.5);
-		heartShape.bezierCurveTo(6.0, 7.7, 8.0, 5.5, 8.0, 3.5);
-		heartShape.bezierCurveTo(8.0, 3.5, 8.0, 0, 5.0, 0);
-		heartShape.bezierCurveTo(3.5, 0, 2.5, 2.5, 2.5, 2.5);
-
-		var extrudeSettings = { amount: 2, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
-
-		var geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
-
-		var mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial());
-		this.scene.add(mesh);
-
-	}
 	render() {
 		return (
 			<div ref={this.rootElement} />

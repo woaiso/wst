@@ -21,7 +21,7 @@ export class WebpackConfig {
 	devtool = 'source-map'
 	entry = {
 		main: 'index.tsx',
-		vendor: ['react', 'react-dom']
+		vendor: ['react', 'react-dom', 'three']
 	}
 	output = {
 		path: BUILD,
@@ -106,7 +106,8 @@ export class WebpackConfig {
 				test: /\.(png|jpg|gif)$/,
 				loader: 'url-loader',
 				query: {
-					limit: 8192
+					limit: 8192,
+					name: '[hash:8].[ext]'
 				}
 			},
 			{
@@ -114,17 +115,18 @@ export class WebpackConfig {
 				loader: 'url-loader'
 			},
 			{
-				test: /\.(mp3|ogg)$/,
-				loader: 'file-loader'
+				test: /\.(mp3|ogg|pack)$/,
+				loader: 'file-loader',
+				query: {
+					name: '[hash:8].[ext]'
+				}
 			}
 		]
 	}
 	plugins = [
 		extractCSS,
 		new webpack.optimize.CommonsChunkPlugin({
-			name: 'vendor',
-			filename: 'vendor.js',
-			minChunks: Infinity
+			names: ['vendor']
 		})
 	]
 }
