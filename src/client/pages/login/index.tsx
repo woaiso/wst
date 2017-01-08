@@ -13,6 +13,7 @@ const suger = require('./sounds/sugar.mp3');
 const logo = require('./images/logo.png');
 const robo_pigeon = require('./scenes/robo_pigeon.pack');
 const birdModel = require('./models/bird.json');
+const datGUI = require('dat.gui');
 
 
 export default class LoginPage extends React.Component<any, any>{
@@ -34,7 +35,7 @@ export default class LoginPage extends React.Component<any, any>{
 	controls = null;
 	listener = null;
 	analyser = null;
-	METERNUM = 16;
+	METERNUM = 128;
 	componentDidMount() {
 		const rootElement = this.refs[this.rootElement] as HTMLElement;
 
@@ -109,7 +110,7 @@ export default class LoginPage extends React.Component<any, any>{
 		this.scene.add(this.camera);
 
 
-		var boxGeometry = new THREE.BoxGeometry(10, 20, 30);
+		var boxGeometry = new THREE.BoxGeometry(20, 20, 20);
 		console.log(boxGeometry);
 
 
@@ -169,12 +170,12 @@ export default class LoginPage extends React.Component<any, any>{
 
 		document.addEventListener('keydown', this.onDocumentKeyDown, false);
 
-		const MWIDTH = 2;
+		const MWIDTH = 0.5;
 		const MTHICKNESS = 1;
 
 		//播放器
 		//创建绿色柱条的形状
-		var cubeGeometry = new THREE.CubeGeometry(MWIDTH, 10, MTHICKNESS);
+		var cubeGeometry = new THREE.CubeGeometry(MWIDTH, 1, MTHICKNESS);
 		//创建绿色柱条的材质
 		var cubeMaterial = new THREE.MeshPhongMaterial({
 			color: 0x880E4F,
@@ -184,7 +185,7 @@ export default class LoginPage extends React.Component<any, any>{
 			reflectivity: 55
 		});
 		//创建白色盖子的形状
-		var capGeometry = new THREE.CubeGeometry(MWIDTH, 1, MTHICKNESS);
+		var capGeometry = new THREE.CubeGeometry(MWIDTH, 0.1, MTHICKNESS);
 		//创建白色盖子的材质
 		var capMaterial = new THREE.MeshPhongMaterial({
 			color: 0xffffff,
@@ -194,7 +195,7 @@ export default class LoginPage extends React.Component<any, any>{
 			reflectivity: 55
 		});
 		const METERNUM = this.METERNUM;
-		const GAP = 3; //间隔
+		const GAP = 0.5; //间隔
 		//创建一字排开的柱条和盖子，并添加到场景中
 		for (var i = METERNUM - 1; i >= 0; i--) {
 			var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -222,6 +223,7 @@ export default class LoginPage extends React.Component<any, any>{
 		this.camera.add(this.listener);
 		// create a global audio source
 		var sound = new THREE.Audio(this.listener);
+		console.log(sound);
 
 		var audioLoader = new THREE.AudioLoader();
 
@@ -229,16 +231,27 @@ export default class LoginPage extends React.Component<any, any>{
 		audioLoader.load(suger, (buffer) => {
 			sound.setBuffer(buffer);
 			sound.setLoop(false);
-			sound.setVolume(0.5);
-			sound.play();
+			sound.setVolume(1); //设置音量
+			// sound.play();
 		});
-		this.analyser = new THREE.AudioAnalyser(sound, 32);
-
+		this.analyser = new THREE.AudioAnalyser(sound, 512);
+		this.analyser.analyser.fftSize = 512;
 		var meter = this.scene.getObjectByName('cube' + 1, true);
 		(window as any).meter = meter;
 		this.createPentagram();
 		createSky(this.scene);
 		this.createBrid();
+
+		const gui = new datGUI.GUI();
+		const f1 = gui.addFolder('boxMesh');
+		const f1_1 = f1.addFolder('scale');
+		f1_1.add(this.boxMesh.scale, 'x', -5, 5);
+		f1_1.add(this.boxMesh.scale, 'y', -5, 5);
+		f1_1.add(this.boxMesh.scale, 'z', -5, 5);
+		const f2  = gui.addFolder('Player');
+		f2.add(sound, 'play');
+		f2.add(sound, 'pause');
+
 	}
 	//监控按键
 	onDocumentKeyDown = (event: KeyboardEvent) => {
@@ -273,24 +286,21 @@ export default class LoginPage extends React.Component<any, any>{
 			var step = Math.round(array.length / METERNUM);
 			//更新每根柱条的高度
 			for (var i = 0; i < METERNUM; i++) {
-				var value = array[i * step] / 4;
-				value = value < 1 ? 1 : value/3;
-				var meter = this.scene.getObjectByName('cube' + i, true),
-					cap = this.scene.getObjectByName('cap' + i, true);
+				let value = array[i * step] / step / 2;
+				value = value < 1 ? 1 : value;
+				const meter = this.scene.getObjectByName('cube' + i, true);
+				const cap = this.scene.getObjectByName('cap' + i, true);
+				meter.scale.y = value;
 
-				meter.geometry.vertices[0].y=value;
-				meter.geometry.vertices[1].y=value;
-				meter.geometry.vertices[4].y=value;
-				meter.geometry.vertices[5].y=value;
-				// meter.scale.y = value;
 				//计算柱条边沿尺寸以获得高度
 				meter.geometry.computeBoundingBox();
-				let height = (meter.geometry.boundingBox.max.y - meter.geometry.boundingBox.min.y) * value / 5;
+				let height = (meter.geometry.boundingBox.max.y - meter.geometry.boundingBox.min.y) * value;
+				meter.position.y = height / 2;
 				//将柱条高度与盖子高度进行比较
-				if (height / 2 > cap.position.y) {
-					cap.position.y = height / 2;
+				if (height >= cap.position.y) {
+					cap.position.y = height;
 				} else {
-					cap.position.y -= 0.05;
+					cap.position.y -= 0.2 + 0.2;
 				};
 			}
 		};

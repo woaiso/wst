@@ -35,7 +35,10 @@ export class WebpackConfig {
 			path.join(CWD, 'src/client'),
 			CWD_NODE_MODULES,
 			NODE_MODULES
-		]
+		],
+		alias: {
+			'dat.gui':path.join(CWD_NODE_MODULES, 'dat.gui/build/dat.gui.js')
+		}
 	}
 	module = {
 		rules: [
