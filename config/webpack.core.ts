@@ -18,7 +18,7 @@ const ts = {
 
 export class WebpackConfig {
 	cache?: boolean = true
-	devtool = 'source-map'
+	devtool = 'source-map' as 'source-map'
 	entry = {
 		main: 'index.tsx',
 		vendor: ['react', 'react-dom', 'three']
