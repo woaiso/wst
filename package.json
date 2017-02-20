@@ -9,7 +9,8 @@
     "build": "npm run webpack:build && gulp server:build",
     "webpack:dev": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.ts --progress --colors",
     "webpack:build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.ts --progress --colors",
-    "test": "jest --coverage"
+    "test": "jest",
+    "debug": "ts-node src/server/services/video.ts"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
@@ -19,7 +20,7 @@
       "js"
     ],
     "testPathDirs": [
-      "./src/client/"
+      "./src/"
     ],
     "transform": {
       "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
@@ -66,6 +67,7 @@
     "babel-preset-es2016": "^6.16.0",
     "babel-preset-es2017": "^6.16.0",
     "babel-preset-react": "^6.16.0",
+    "bull": "^2.1.2",
     "cheerio": "^0.22.0",
     "clean-webpack-plugin": "^0.1.14",
     "codecov": "^1.0.1",
@@ -87,6 +89,7 @@
     "jest-enzyme": "^2.0.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "monk": "^4.0.0",
     "node-fetch": "^1.6.3",
     "nodemon": "^1.11.0",
     "path": "^0.12.7",
