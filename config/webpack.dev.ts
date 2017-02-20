@@ -19,7 +19,7 @@ class WebpackDev {
 	devServer = {
 		contentBase: path.join(CWD, 'dist/client'),
 		compress: true,
-		port: 9000,
+		port: 8080,
 		hot: true,
 		quiet: false,
 		stats: {

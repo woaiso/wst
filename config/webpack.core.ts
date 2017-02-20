@@ -57,15 +57,15 @@ export class WebpackConfig {
 			{
 				test: /\.css$/,
 				loader: extractCSS.extract({
-					fallbackLoader: 'style-loader',
-					loader: ['css-loader?importLoaders=1&sourceMap', 'postcss-loader']
+					fallback: 'style-loader',
+					use: ['css-loader?importLoaders=1&sourceMap', 'postcss-loader']
 				})
 			},
 			{
 				test: /\.less$/,
 				loader: ExtractTextPlugin.extract({
-					fallbackLoader: 'style-loader',
-					loader: [
+					fallback: 'style-loader',
+					use: [
 						{
 							loader: 'css-loader',
 							options: { sourceMap: true, importLoaders: 1 }
