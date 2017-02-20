@@ -7,7 +7,7 @@ import DataQuery from './dataQuery';
 
 export default class DashBoard extends React.Component<any, any> {
 	state = {
-		collapsed: false,
+		collapsed: true,
 	};
 	toggle = () => {
 		this.setState({

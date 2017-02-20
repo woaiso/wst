@@ -15,7 +15,7 @@ export default class PostService extends BaseDao<Post> {
 		super();
 		super.setCollection('post');
 	}
-	getList(): Promise<Post[]> {
-		return this.find({ title: /狗/ });
+	getList(pageNo: number = 1, pageSize: number = 20, keyword?: string): Promise<Post[]> {
+		return this.find({ title: new RegExp(keyword) }, { limit: pageSize, skip: (pageNo - 1) * pageSize });
 	}
 }

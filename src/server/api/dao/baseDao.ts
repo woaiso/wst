@@ -8,7 +8,7 @@ export default class BaseDao<T> {
 	insert(data) {
 		db.get(this.collectionName).insert(data);
 	}
-	find(querySelector, sort?: any): Promise<T[]> {
-		return db.get(this.collectionName).find(querySelector, sort).skip(0).limit(10) as Promise<T[]>;
+	find(querySelector, options: any = { limit: 2 }): Promise<T[]> {
+		return db.get(this.collectionName).find(querySelector, options) as Promise<T[]>;
 	}
 }

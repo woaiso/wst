@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { articles } from './mock';
-import { Table } from 'antd';
+import { Table, Pagination, Input, Button } from 'antd';
 import { TableColumnConfig } from 'antd/lib/table/Table';
-
+import fetch from './../utils/fetch';
+var Qs = require('qs');
 interface IArticle {
-	'key': number,
+	'_id': string
+	'key': number
 	'id': number
 	'category': string
 	'title': string
@@ -24,8 +26,70 @@ class ArticleTable extends Table<IArticle>{
 }
 
 export default class DataQuery extends React.Component<any, any>{
+	state = {
+		data: [],
+		pagination: {
+			size: 'default',
+			defaultPageSize: 20
+		} as any,
+		loading: false,
+		filterDropdownVisible: false,
+		searchText: '',
+	}
+	componentDidMount() {
+		this.fetchData();
+	}
+	handleTableChange = (pagination, filters: any = {}, sorter: any = {}) => {
+		const pager = this.state.pagination;
+		filters.q = this.state.searchText;
+		pager.current = pagination.current;
+		this.setState({
+			pagination: pager,
+		});
+		this.fetchData({
+			pageSize: pagination.pageSize,
+			page: pagination.current,
+			sortField: sorter.field,
+			sortOrder: sorter.order,
+			...filters,
+		});
+	}
+	fetchData = (params = { pageSize: 20, page: 1, q: '' }) => {
+		this.setState({ loading: true });
+		fetch.get('/api/post/get', {
+			params: params,
+			paramsSerializer: (params) => {
+				return Qs.stringify(params, { arrayFormat: 'brackets' })
+			}
+		}).then((response) => {
+			const result = response.data;
+			if (result.code === 200) {
+				const data = result.data;
+				const pagination = this.state.pagination;
+				pagination.total = 100;
+				this.setState({
+					loading: false,
+					data: data,
+					pagination,
+				});
+			} else {
+				console.error('fetch error');
+			}
+		})
+	}
+	onInputChange = (e) => {
+		this.setState({ searchText: e.target.value });
+	}
+	onSearch = () => {
+		const { searchText } = this.state;
+		this.fetchData({
+			page: 1,
+			pageSize: 20,
+			q: searchText
+		});
+	}
 	render() {
-		const data = articles as IArticle[];
+		const data = this.state.data as IArticle[];
 		data.forEach((item, index) => {
 			item.key = index;
 		})
@@ -41,7 +105,20 @@ export default class DataQuery extends React.Component<any, any>{
 			},
 			{
 				title: '标题',
-				dataIndex: 'title'
+				dataIndex: 'title',
+				filterDropdown: (
+					<div className="custom-filter-dropdown">
+						<Input
+							placeholder="keyword"
+							value={this.state.searchText}
+							onChange={this.onInputChange}
+							onPressEnter={this.onSearch}
+							/>
+						<Button type="primary" onClick={this.onSearch}>Search</Button>
+					</div>
+				),
+				// filterDropdownVisible: this.state.filterDropdownVisible,
+				// onFilterDropdownVisibleChange: visible => this.setState({ filterDropdownVisible: visible }),
 			},
 			{
 				title: '阅读数量',
@@ -77,14 +154,35 @@ export default class DataQuery extends React.Component<any, any>{
 				className: 'avatar-column',
 				render: (text, _record, _index) => {
 					return {
-						children: <img style={{width:20, height:20}} src={text} />
+						children: <img style={{ width: 20, height: 20 }} src={text} />
 					}
 				}
 			}
-		]
+		];
+		const {pagination} = this.state;
 		return (
 			<div>
-				<ArticleTable columns={columns} dataSource={data} size="small" pagination={{ defaultPageSize: 25, total: data.length }} />
+				<ArticleTable
+					columns={columns}
+					dataSource={data}
+					rowKey={(record) => record._id.toString()}
+					pagination={false}
+					loading={this.state.loading}
+					onChange={this.handleTableChange}
+					size="small"
+					expandedRowRender={(record) => <div className="expanded-row-wrap" dangerouslySetInnerHTML={{ __html: record.content }}/>}
+					/>
+				<div style={{ display: 'flex' }}>
+					<Pagination
+						style={{ margin: '16px 0 ' }}
+						{...this.state.pagination}
+						onChange={(current, pageSize) => this.handleTableChange({ current, pageSize })}
+						/>
+					<div style={{ lineHeight: '60px', marginLeft: 16 }}>
+						<span>共{pagination.total}条</span>
+					</div>
+				</div>
+
 			</div>
 		);
 	}

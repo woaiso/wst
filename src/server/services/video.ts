@@ -82,8 +82,10 @@ export default class Video {
 			$(imageElement).removeAttr('file');
 			$(imageElement).removeAttr('onmouseover');
 		});
+		const query = url.parse(jobData.url, true).query;
 		const postMessage = {
-			id: + post.attr('id').replace(/.*?(\d+)/, '$1'),
+			id: + query.tid,
+			postId: + post.attr('id').replace(/.*?(\d+)/, '$1'),
 			author: {
 				id: post.find('.postauthor .postinfo a').attr('href').replace(/.*?uid=/, ''),
 				userName: post.find('.postauthor .postinfo a').text()
@@ -103,12 +105,12 @@ export default class Video {
 	}
 }
 
-// const video = new Video();
-// const testUrl = 'http://91.t9m.space/viewthread.php?tid=220654&extra=page%3D1%26amp%3Bfilter%3Ddigest';
+const video = new Video();
+const testUrl = 'http://91.t9m.space/viewthread.php?tid=202723';
 
-// fetchWithProxy(testUrl)
-// 	.then((html) => {
-// 		video.extractArticle(html, { url: testUrl });
-// 	});
+fetchWithProxy(testUrl)
+	.then((html) => {
+		video.extractArticle(html, { url: testUrl });
+	});
 
-new Video().init();
+// new Video().init();
