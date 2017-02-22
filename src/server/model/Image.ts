@@ -75,4 +75,11 @@ export default class Image {
 	 * @memberOf Image
 	 */
 	desc?: string
+	/**
+	 * 出处ID
+	 *
+	 * @type {number}
+	 * @memberOf Image
+	 */
+	parentId?: number
 }

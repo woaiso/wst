@@ -1,5 +1,10 @@
 const db = require('monk')('localhost/wst');
 
+export interface ListData<T> {
+	list: T[],
+	total: number
+}
+
 export default class BaseDao<T> {
 	collectionName = 'temp'
 	setCollection(collectionName) {
@@ -8,7 +13,19 @@ export default class BaseDao<T> {
 	insert(data) {
 		db.get(this.collectionName).insert(data);
 	}
-	find(querySelector, options: any = { limit: 2 }): Promise<T[]> {
-		return db.get(this.collectionName).find(querySelector, options) as Promise<T[]>;
+	find(querySelector, options: any = { limit: 2 }): Promise<ListData<T>> {
+		return new Promise((resolve: (data: ListData<T>) => void, _reject) => {
+			const data = {
+				list: [],
+				total: 0
+			};
+			db.get(this.collectionName).find(querySelector, options).then((list: T[]) => {
+				data.list = list;
+				db.get(this.collectionName).count(querySelector).then((count) => {
+					data.total = count;
+					resolve(data);
+				})
+			})
+		})
 	}
 }

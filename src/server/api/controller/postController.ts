@@ -16,11 +16,11 @@ export default class PostController {
 				page,
 				pageSize,
 				keyWord
-			).then((postList) => {
+			).then((postData) => {
 				res.json({
 					code: 200,
 					message: 'ok',
-					data: postList
+					data: postData
 				});
 				res.end();
 			});

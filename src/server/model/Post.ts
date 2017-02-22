@@ -1,4 +1,5 @@
 import Article from './Article';
+import Image from './Image';
 
 export default class Post extends Article {
 	/**
@@ -29,4 +30,11 @@ export default class Post extends Article {
 	 * @memberOf Post
 	 */
 	text?: string
+	/**
+	 * 图片组
+	 *
+	 * @type {Image[]}
+	 * @memberOf Post
+	 */
+	images?: Image[]
 }

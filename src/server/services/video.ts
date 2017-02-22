@@ -17,7 +17,7 @@ var Queue = require('bull');
 var url = require('url');
 export default class Video {
 	currentPage = 0
-	maxPage = 1
+	maxPage = 1000
 	fid = 19
 	worker
 	init() {
@@ -59,8 +59,8 @@ export default class Video {
 				userName: $(item).find('.author cite a').text()
 			};
 			article.postTime = $(item).find('.author > em').text();
-			article.readNum = +$(item).find('.nums strong').text();
-			article.commentNum = + $(item).find('.nums em').text();
+			article.readNum = + $(item).find('.nums em').text();
+			article.commentNum = +$(item).find('.nums strong').text();
 			article.raiseNum = +$(item).find('font[color=green]').text().replace(/.*?(\d+).*/, '$1');
 
 			const commenter = new Author();
@@ -71,10 +71,10 @@ export default class Video {
 			article.website = url.parse(jobData.url).hostname;
 			article.url = url.resolve(jobData.url, page.attr('href')) + '&authorid=' + authorId;
 
-			// articlesModel.insert(data);
+			articlesModel.insert(article);
 			//fetch page work
 			console.log(JSON.stringify(article, null, 2));
-			this.worker.addJob(article);
+			this.worker.addJob({ article, url: article.url });
 		});
 	}
 	extractArticle(html, jobData) {
@@ -83,36 +83,43 @@ export default class Video {
 
 		// get all post message . the first one is main message
 		const postElement = $($('[id^=post_]')[0]);
-		postElement.find('.attach_popup').remove();
-		postElement.find('div.t_attach').remove();
-		postElement.find('span[id^=attach_]').remove();
-
-		// const images = new Array<Image>();
-
-
-
-		const images = Array.prototype.slice.call(postElement.find('img[id^=aimg_]').map((_index, item) => {
-			return $(item).attr('file');
-		}));
-
+		const post = Object.assign({}, article) as Post;
+		const images = new Array<Image>();
+		post.id = + postElement.attr('id').replace(/.*?(\d+)/, '$1');
+		postElement.find('img[id^=aimg_]').each((_index, imageElement) => {
+			const filename = $(imageElement).attr('file');
+			const image = new Image();
+			const imageElementId = $(imageElement).attr('id');
+			image.parentId = post.id;
+			image.id = + imageElementId.replace(/.*?_(\d+)/, '$1');
+			image.url = url.resolve(article.url, filename);
+			image.fileName = filename.replace(/.*?\//, '');
+			image.ext = filename.replace(/.*?\./, '');
+			image.title = $(imageElement).attr('alt');
+			image.width = + $(imageElement).attr('width');
+			const menuText = postElement.find('#' + imageElementId + '_menu').text();
+			const group = /(\d+\.\d+)[\D]*(\d{4}-\d{1,2}-\d{1,2}\s\d{1,2}:\d{1,2})?/.exec(menuText);
+			const timeTitle = postElement.find('#' + imageElementId + '_menu' + ' .t_smallfont  span').attr('title');
+			image.postTime = timeTitle ? timeTitle : group[2];
+			image.size = + group[1];
+			images.push(image);
+		});
 		postElement.find('img[id^=aimg_]').each((index, imageElement) => {
-			$(imageElement).attr('src', url.resolve(jobData.url, images[index]));
+			$(imageElement).attr('src', images[index].url);
 			$(imageElement).removeAttr('file');
 			$(imageElement).removeAttr('onmouseover');
 		});
 
-		const post = Object.assign({}, jobData.article) as Post;
-
-		post.articleId = jobData.article.id;
-		post.id = + postElement.attr('id').replace(/.*?(\d+)/, '$1')
+		postElement.find('.attach_popup').remove();
+		postElement.find('div.t_attach').remove();
+		postElement.find('span[id^=attach_]').remove();
+		post.articleId = article.id;
 		post.content = postElement.find('.t_msgfont').html().replace(/\r|\n/g, '');
 		post.text = postElement.find('.t_msgfont').text().replace(/\r\n\r\n/g, '');
 		post.images = images;
 
-		console.log(JSON.stringify(postMessage, null, 2));
-		// console.log(post.content);
-
-		// db.get('post').insert(post);
+		console.log(JSON.stringify(post, null, 2));
+		db.get('post').insert(post);
 		return post;
 	}
 }

@@ -4,22 +4,13 @@ import { Table, Pagination, Input, Button } from 'antd';
 import { TableColumnConfig } from 'antd/lib/table/Table';
 import fetch from './../utils/fetch';
 var Qs = require('qs');
-interface IArticle {
+import Article from './../../server/model/Article';
+
+
+
+interface IArticle extends Article {
 	'_id': string
 	'key': number
-	'id': number
-	'category': string
-	'title': string
-	'author': {
-		'userId': number
-		'userName': string
-		'userAvatar': string
-	},
-	'readNum': number
-	'commentNum': number
-	'postTime': string
-	'lastCommenter': string
-	'lastCommentTime': string
 }
 class ArticleTable extends Table<IArticle>{
 
@@ -66,10 +57,10 @@ export default class DataQuery extends React.Component<any, any>{
 			if (result.code === 200) {
 				const data = result.data;
 				const pagination = this.state.pagination;
-				pagination.total = 100;
+				pagination.total = data.total;
 				this.setState({
 					loading: false,
-					data: data,
+					data: data.list,
 					pagination,
 				});
 			} else {
@@ -101,7 +92,25 @@ export default class DataQuery extends React.Component<any, any>{
 			},
 			{
 				title: '分类',
-				dataIndex: 'category'
+				dataIndex: 'forumId'
+			},
+			{
+				title: '作者ID',
+				dataIndex: 'author.userId'
+			},
+			{
+				title: '头像',
+				dataIndex: 'author.userAvatar',
+				className: 'avatar-column',
+				render: (text, _record, _index) => {
+					return {
+						children: <img style={{ width: 20, height: 20 }} src={text} />
+					}
+				}
+			},
+			{
+				title: '昵称',
+				dataIndex: 'author.userName'
 			},
 			{
 				title: '标题',
@@ -134,28 +143,19 @@ export default class DataQuery extends React.Component<any, any>{
 			},
 			{
 				title: '最后评论',
-				dataIndex: 'lastCommenter'
+				dataIndex: 'lastCommenter.userName'
 			},
 			{
-				title: '最后评论用户',
+				title: '最后评论时间',
 				dataIndex: 'lastCommentTime'
 			},
 			{
-				title: '作者ID',
-				dataIndex: 'author.userId'
-			},
-			{
-				title: '作者名称',
-				dataIndex: 'author.userName'
-			},
-			{
-				title: '作者头像',
-				dataIndex: 'author.userAvatar',
-				className: 'avatar-column',
-				render: (text, _record, _index) => {
+				title: '操作',
+				dataIndex: 'url',
+				render: (text)=>{
 					return {
-						children: <img style={{ width: 20, height: 20 }} src={text} />
-					}
+						children: <a href={text} target="_blank">来源</a>
+					};
 				}
 			}
 		];
