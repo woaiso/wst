@@ -4,11 +4,13 @@ import { Table, Pagination, Input, Button } from 'antd';
 import { TableColumnConfig } from 'antd/lib/table/Table';
 import fetch from './../utils/fetch';
 var Qs = require('qs');
-import Article from './../../server/model/Article';
+import Post from './../../server/model/Post';
+
+import DataDialog from './dataDialog';
 
 
 
-interface IArticle extends Article {
+interface IArticle extends Post {
 	'_id': string
 	'key': number
 }
@@ -26,6 +28,8 @@ export default class DataQuery extends React.Component<any, any>{
 		loading: false,
 		filterDropdownVisible: false,
 		searchText: '',
+		dataDialogVisible: false,
+		activePost: new Post()
 	}
 	componentDidMount() {
 		this.fetchData();
@@ -79,6 +83,24 @@ export default class DataQuery extends React.Component<any, any>{
 			q: searchText
 		});
 	}
+	onClickTitle = (post: Post) => {
+		this.setState({
+			dataDialogVisible: true,
+			activePost: post
+		});
+	}
+	onDataDialogCancel = () => {
+		this.setState({
+			dataDialogVisible: false,
+			activePost: new Post()
+		});
+	}
+	onDataDialogOk = () => {
+		this.setState({
+			dataDialogVisible: false,
+			activePost: new Post()
+		});
+	}
 	render() {
 		const data = this.state.data as IArticle[];
 		data.forEach((item, index) => {
@@ -115,6 +137,11 @@ export default class DataQuery extends React.Component<any, any>{
 			{
 				title: '标题',
 				dataIndex: 'title',
+				render: (text, record: Post) => {
+					return {
+						children: <a href="javascript:;" onClick={() => this.onClickTitle(record)}>{text}</a>
+					};
+				},
 				filterDropdown: (
 					<div className="custom-filter-dropdown">
 						<Input
@@ -122,7 +149,7 @@ export default class DataQuery extends React.Component<any, any>{
 							value={this.state.searchText}
 							onChange={this.onInputChange}
 							onPressEnter={this.onSearch}
-							/>
+						/>
 						<Button type="primary" onClick={this.onSearch}>Search</Button>
 					</div>
 				),
@@ -152,14 +179,14 @@ export default class DataQuery extends React.Component<any, any>{
 			{
 				title: '操作',
 				dataIndex: 'url',
-				render: (text)=>{
+				render: (text) => {
 					return {
 						children: <a href={text} target="_blank">来源</a>
 					};
 				}
 			}
 		];
-		const {pagination} = this.state;
+		const { pagination } = this.state;
 		return (
 			<div>
 				<ArticleTable
@@ -170,19 +197,19 @@ export default class DataQuery extends React.Component<any, any>{
 					loading={this.state.loading}
 					onChange={this.handleTableChange}
 					size="small"
-					expandedRowRender={(record) => <div className="expanded-row-wrap" dangerouslySetInnerHTML={{ __html: record.content }}/>}
-					/>
+					expandedRowRender={(record) => <div className="expanded-row-wrap" dangerouslySetInnerHTML={{ __html: record.content }} />}
+				/>
 				<div style={{ display: 'flex' }}>
 					<Pagination
 						style={{ margin: '16px 0 ' }}
 						{...this.state.pagination}
 						onChange={(current, pageSize) => this.handleTableChange({ current, pageSize })}
-						/>
+					/>
 					<div style={{ lineHeight: '60px', marginLeft: 16 }}>
 						<span>共{pagination.total}条</span>
 					</div>
 				</div>
-
+				<DataDialog visible={this.state.dataDialogVisible} post={this.state.activePost} onOk={this.onDataDialogOk} onCancel={this.onDataDialogCancel} />
 			</div>
 		);
 	}
