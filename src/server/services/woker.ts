@@ -6,7 +6,7 @@ var Queue = require('bull');
 import { fetchWithProxy } from './fetch';
 
 export default class Woker {
-	maxWoker = 20
+	maxWoker = 30
 	workers = []
 	jobs = 0
 	completedCallback = (_html, _jobData) => { }

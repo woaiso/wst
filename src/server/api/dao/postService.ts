@@ -16,6 +16,6 @@ export default class PostService extends BaseDao<Post> {
 		super.setCollection('post');
 	}
 	getList(pageNo: number = 1, pageSize: number = 20, keyword?: string): Promise<ListData<Post>> {
-		return this.find({ title: new RegExp(keyword) }, { limit: pageSize, skip: (pageNo - 1) * pageSize });
+		return this.find({ title: new RegExp(keyword) }, { limit: pageSize, skip: (pageNo - 1) * pageSize, sort: [['id', 1]] });
 	}
 }

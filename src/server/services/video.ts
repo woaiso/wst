@@ -16,9 +16,6 @@ const articlesModel = db.get('articles');
 var Queue = require('bull');
 var url = require('url');
 export default class Video {
-	currentPage = 0
-	maxPage = 1000
-	fid = 19
 	worker
 	init() {
 		this.worker = new Worker();
@@ -30,15 +27,25 @@ export default class Video {
 			} else {
 				console.log('not support page ' + data.url);
 			}
-
 		})
-		for (; this.currentPage <= this.maxPage; this.currentPage++) {
-			this.worker.addJob({
-				url: seed.replace(/\$fid/, this.fid.toString()).replace(/\$page/, this.currentPage.toString()),
-				fid: this.fid,
-				page: this.currentPage
+		seed.forEach((seed) => {
+			const fids = seed.fid;
+			fids.forEach((fid) => {
+				const id = fid[0];
+				const maxPage = fid[1];
+				for (let i = 1; i <= maxPage; i++) {
+					this.worker.addJob({
+						url: seed.urlTemplate.replace(/\$fid/, id.toString()).replace(/\$page/, i.toString()),
+						fid: id,
+						page: i
+					})
+				}
 			})
-		}
+		})
+	}
+	/** */
+	getTotalCount() {
+
 	}
 	extractList(html, jobData) {
 		let $ = cheerio.load(html);
