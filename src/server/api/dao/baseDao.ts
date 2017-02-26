@@ -14,6 +14,7 @@ export default class BaseDao<T> {
 		db.get(this.collectionName).insert(data);
 	}
 	find(querySelector, options: any = { limit: 2 }): Promise<ListData<T>> {
+		console.log(querySelector, options);
 		return new Promise((resolve: (data: ListData<T>) => void, _reject) => {
 			const data = {
 				list: [],

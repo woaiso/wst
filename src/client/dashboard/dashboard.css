@@ -17,6 +17,12 @@
   margin: 16px;
 }
 
+.content-wrap{
+	margin: 0;
+	padding: 0 16px 16px;
+	min-height: 1000px;
+}
+
 .ant-layout-sider-collapsed .anticon {
   font-size: 16px;
 }

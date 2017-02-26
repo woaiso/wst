@@ -48,7 +48,7 @@ export default class DashBoard extends React.Component<any, any> {
 								onClick={this.toggle}
 							/>
 						</Header>
-						<Content style={{ margin: 0, padding: 16, minHeight: 1000 }}>
+						<Content className="content-wrap">
 							<DataQuery />
 						</Content>
 					</Layout>

@@ -29,14 +29,16 @@ export default class DataDialog extends React.Component<IDialogProps, any> {
 		this.setState({
 			previewImages: images,
 			previewIndex: index,
-			previewVisible: true
+			previewVisible: true,
+			visible: false
 		})
 	}
 	closePreview = () => {
 		this.setState({
 			previewImages: [],
 			previewIndex: 0,
-			previewVisible: false
+			previewVisible: false,
+			visible: true
 		})
 	}
 	render() {

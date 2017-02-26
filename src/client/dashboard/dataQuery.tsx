@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { articles } from './mock';
-import { Table, Pagination, Input, Button } from 'antd';
+import { Table, Pagination, Input, Button, Row, Col, Form } from 'antd';
 import { TableColumnConfig } from 'antd/lib/table/Table';
 import fetch from './../utils/fetch';
 var Qs = require('qs');
 import Post from './../../server/model/Post';
-
 import DataDialog from './dataDialog';
 
+const FormItem = Form.Item;
 
 
 interface IArticle extends Post {
@@ -27,7 +27,8 @@ export default class DataQuery extends React.Component<any, any>{
 		} as any,
 		loading: false,
 		filterDropdownVisible: false,
-		searchText: '',
+		queryKey: 'title',
+		queryValue: '',
 		dataDialogVisible: false,
 		activePost: new Post()
 	}
@@ -36,20 +37,21 @@ export default class DataQuery extends React.Component<any, any>{
 	}
 	handleTableChange = (pagination, filters: any = {}, sorter: any = {}) => {
 		const pager = this.state.pagination;
-		filters.q = this.state.searchText;
-		pager.current = pagination.current;
+		filters.queryKey = this.state.queryKey;
+		filters.queryValue = this.state.queryValue;
+		pager.current = pagination.current || 1;
 		this.setState({
 			pagination: pager,
 		});
 		this.fetchData({
-			pageSize: pagination.pageSize,
-			page: pagination.current,
+			pageSize: pagination.pageSize || 20,
+			page: pager.current,
 			sortField: sorter.field,
 			sortOrder: sorter.order,
 			...filters,
 		});
 	}
-	fetchData = (params = { pageSize: 20, page: 1, q: '' }) => {
+	fetchData = (params = { pageSize: 20, page: 1, queryKey: '', queryValue: '' }) => {
 		this.setState({ loading: true });
 		fetch.get('/api/post/get', {
 			params: params,
@@ -73,14 +75,15 @@ export default class DataQuery extends React.Component<any, any>{
 		})
 	}
 	onInputChange = (e) => {
-		this.setState({ searchText: e.target.value });
+		this.setState({ queryValue: e.target.value });
 	}
 	onSearch = () => {
-		const { searchText } = this.state;
+		const { queryValue } = this.state;
 		this.fetchData({
 			page: 1,
 			pageSize: 20,
-			q: searchText
+			queryKey: 'title',
+			queryValue
 		});
 	}
 	onClickTitle = (post: Post) => {
@@ -88,6 +91,19 @@ export default class DataQuery extends React.Component<any, any>{
 			dataDialogVisible: true,
 			activePost: post
 		});
+	}
+	onClickUserName = (post: Post) => {
+		this.setState({
+			queryKey: 'author.userName',
+			queryValue: post.author.userName
+		}, () => {
+			this.fetchData({
+				page: 1,
+				pageSize: 20,
+				queryKey: 'author.userName',
+				queryValue: post.author.userName
+			});
+		})
 	}
 	onDataDialogCancel = () => {
 		this.setState({
@@ -110,7 +126,8 @@ export default class DataQuery extends React.Component<any, any>{
 		const columns: TableColumnConfig<IArticle>[] = [
 			{
 				title: 'ID',
-				dataIndex: 'id'
+				dataIndex: 'id',
+				sorter: true
 			},
 			{
 				title: '分类',
@@ -118,7 +135,8 @@ export default class DataQuery extends React.Component<any, any>{
 			},
 			{
 				title: '作者ID',
-				dataIndex: 'author.userId'
+				dataIndex: 'author.userId',
+				sorter: true
 			},
 			{
 				title: '头像',
@@ -132,7 +150,12 @@ export default class DataQuery extends React.Component<any, any>{
 			},
 			{
 				title: '昵称',
-				dataIndex: 'author.userName'
+				dataIndex: 'author.userName',
+				render: (text, record: Post) => {
+					return {
+						children: <a href="javascript:;" onClick={() => this.onClickUserName(record)}>{text}</a>
+					};
+				},
 			},
 			{
 				title: '标题',
@@ -146,7 +169,7 @@ export default class DataQuery extends React.Component<any, any>{
 					<div className="custom-filter-dropdown">
 						<Input
 							placeholder="keyword"
-							value={this.state.searchText}
+							value={this.state.queryValue}
 							onChange={this.onInputChange}
 							onPressEnter={this.onSearch}
 						/>
@@ -158,15 +181,18 @@ export default class DataQuery extends React.Component<any, any>{
 			},
 			{
 				title: '阅读数量',
-				dataIndex: 'readNum'
+				dataIndex: 'readNum',
+				sorter: true
 			},
 			{
 				title: '评论数量',
-				dataIndex: 'commentNum'
+				dataIndex: 'commentNum',
+				sorter: true
 			},
 			{
 				title: '发布日期',
-				dataIndex: 'postTime'
+				dataIndex: 'postTime',
+				sorter: true
 			},
 			{
 				title: '最后评论',
@@ -189,6 +215,23 @@ export default class DataQuery extends React.Component<any, any>{
 		const { pagination } = this.state;
 		return (
 			<div>
+				<div className="filter-wrap">
+					<Form inline>
+						<FormItem label="标题">
+							<Input
+								placeholder="输入搜索的文字"
+								value={this.state.queryValue}
+								onChange={this.onInputChange}
+								onPressEnter={this.onSearch}
+							/>
+						</FormItem>
+						<FormItem>
+							<Button type="primary" htmlType="button" onClick={this.onSearch}>
+								搜索
+							</Button>
+						</FormItem>
+					</Form>
+				</div>
 				<ArticleTable
 					columns={columns}
 					dataSource={data}
@@ -210,7 +253,7 @@ export default class DataQuery extends React.Component<any, any>{
 					</div>
 				</div>
 				<DataDialog visible={this.state.dataDialogVisible} post={this.state.activePost} onOk={this.onDataDialogOk} onCancel={this.onDataDialogCancel} />
-			</div>
+			</div >
 		);
 	}
 }
