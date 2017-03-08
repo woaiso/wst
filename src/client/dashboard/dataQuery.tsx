@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { articles } from './mock';
 import { Table, Pagination, Input, Button, Row, Col, Form } from 'antd';
 import { TableColumnConfig } from 'antd/lib/table/Table';
 import fetch from './../utils/fetch';
 var Qs = require('qs');
 import Post from './../../server/model/Post';
 import DataDialog from './dataDialog';
-
 const FormItem = Form.Item;
 
 
@@ -235,7 +233,7 @@ export default class DataQuery extends React.Component<any, any>{
 				<ArticleTable
 					columns={columns}
 					dataSource={data}
-					rowKey={(record) => record._id.toString()}
+					rowKey={(record) => record.id.toString()}
 					pagination={false}
 					loading={this.state.loading}
 					onChange={this.handleTableChange}
