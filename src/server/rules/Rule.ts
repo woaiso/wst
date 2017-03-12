@@ -12,7 +12,7 @@ export interface Rule {
 	 * @param {string} url 传入的URL链接
 	 * @memberOf Rule
 	 */
-	test: (url: string) => boolean
+	test: (url: string) => boolean | RegExp
 	/**
 	 * 解析数据
 	 *
@@ -21,4 +21,11 @@ export interface Rule {
 	 * @memberOf Rule
 	 */
 	extract: (html: string, url: URL) => void
+	/**
+	 * 设置启动任务
+	 *
+	 *
+	 * @memberOf Rule
+	 */
+	setRootTask: () => void
 }

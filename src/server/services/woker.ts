@@ -9,7 +9,7 @@ export default class Woker {
 	maxWoker = 30
 	workers = []
 	jobs = 0
-	completedCallback = (_html, _jobData) => { }
+	completedCallback: (html, jobData) => void
 	constructor() {
 		for (let i = 0; i < this.maxWoker; i++) {
 			const articlesQueue = Queue('worker_' + i, 6379, '127.0.0.1');

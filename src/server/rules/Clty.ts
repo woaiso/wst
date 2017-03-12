@@ -12,19 +12,19 @@ import Job from './../services/Job';
  * @implements {Rule}
  */
 export default class Flyme extends Job implements Rule {
-	private urlTemplate = 'http://bbs.flyme.cn/forum-${forumId}-${pageId}.html';
+	private urlTemplate = 'http://www.t66y.com/thread0806.php?fid=${forumId}&search=&page=${pageId}';
 	test = (url: string): boolean => {
 		return /bbs\.flyme\.cn/.test(url)
 	}
 
 	extract = (html: string, url: URL): void => {
-		console.log('download DOM', html);
+		console.log(url, html);
 		const htmlElement = $.load(html, { decodeEntities: false });
 		console.log(url);
 	}
 	setRootTask() {
-		const forums = ['100007', '88'];
-		const maxPage = 1000;
+		const forums = ['16'];
+		const maxPage = 100;
 		forums.forEach((forum) => {
 			for (let i = 1; i <= maxPage; i++) {
 				super.addJob({
