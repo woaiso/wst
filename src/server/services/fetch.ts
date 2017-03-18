@@ -4,7 +4,6 @@ var URL  = require('url');
 
 export const fetchWithProxy = (url) => {
 	url = URL.parse(url);
-	console.log(url);
 	return fetch(url, {
 		method: 'GET',
 		headers: {

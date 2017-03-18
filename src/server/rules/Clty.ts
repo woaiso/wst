@@ -17,10 +17,9 @@ export default class Flyme extends Job implements Rule {
 		return /bbs\.flyme\.cn/.test(url)
 	}
 
-	extract = (html: string, url: URL): void => {
-		console.log(url, html);
+	extract = (html: string, data: any): void => {
+		console.log(data.url, html);
 		const htmlElement = $.load(html, { decodeEntities: false });
-		console.log(url);
 	}
 	setRootTask() {
 		const forums = ['16'];

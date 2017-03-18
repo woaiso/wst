@@ -12,6 +12,7 @@ import Author from './../model/Author';
 
 const db = require('monk')('localhost/wst');
 const articlesModel = db.get('articles');
+const tumblr=require('tumblr.js');
 
 var Queue = require('bull');
 var url = require('url');
@@ -139,4 +140,4 @@ export default class Video {
 // 		video.extractArticle(html, { url: testUrl });
 // 	});
 
-new Video().init();
+// new Video().init();

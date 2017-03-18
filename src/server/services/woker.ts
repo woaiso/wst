@@ -14,7 +14,6 @@ export default class Woker {
 		for (let i = 0; i < this.maxWoker; i++) {
 			const articlesQueue = Queue('worker_' + i, 6379, '127.0.0.1');
 			articlesQueue.process((job) => {
-				console.log(job.queue.name, job.data.url);
 				return fetchWithProxy(job.data.url).then((html) => this.completedCallback(html, job.data));
 			});
 			this.workers.push(articlesQueue);
