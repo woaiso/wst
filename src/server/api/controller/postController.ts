@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import PostService, { SortOrder } from './../dao/postService';
+import { SortOrder } from './../dao/baseDao';
+import PostService from './../dao/postService';
 
 export default class PostController {
 	postService: PostService

@@ -5,6 +5,17 @@ export interface ListData<T> {
 	total: number
 }
 
+export enum SortOrder {
+	/**
+	 * 倒序
+	 */
+	DESC_END = -1,
+	/**
+	 * 正序
+	 */
+	ASC_END = 1
+}
+
 export default class BaseDao<T> {
 	collectionName = 'temp'
 	setCollection(collectionName) {

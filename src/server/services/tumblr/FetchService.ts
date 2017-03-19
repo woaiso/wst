@@ -3,8 +3,8 @@
  */
 //基础库
 import tumblr from './API';
-// const db = require('monk')('localhost/wst');
-// const articlesModel = db.get('blogs');
+const db = require('monk')('localhost/wst');
+const blogCollection = db.get('blogs');
 
 
 class UserInfo {
@@ -63,6 +63,7 @@ export default class FetchService {
 	async getUserInfo(): Promise<UserInfo> {
 		return new Promise<UserInfo>((resolve, reject) => {
 			this.client.userInfo((e, userInfoData: { user: UserInfo }) => {
+				console.log(userInfoData);
 				resolve(userInfoData.user);
 			})
 		});
@@ -78,14 +79,21 @@ export default class FetchService {
 			});
 		});
 	}
-
-	async getBlogInfo(): Promise<BlogInfo> {
+	/**
+	 * 获取博客基本信息
+	 *
+	 * @param {string} blogName
+	 * @returns {Promise<BlogInfo>}
+	 *
+	 * @memberOf FetchService
+	 */
+	async getBlogInfo(blogName: string): Promise<BlogInfo> {
 		return new Promise<BlogInfo>((resolve, reject) => {
-			this.client.blogInfo((e: Error, blogInfoData: BlogInfo) => {
+			this.client.blogInfo(blogName, (e: Error, blogInfoData: { blog: BlogInfo }) => {
 				if (e) {
 					reject(e);
 				} else {
-					resolve(blogInfoData);
+					resolve(blogInfoData.blog);
 				}
 			});
 		});
@@ -96,8 +104,12 @@ export default class FetchService {
 		const limit = 20;
 		const maxPage = Math.ceil(following / limit);
 		for (let i = 0; i < maxPage - 1; i++) {
-			const blogInfo = await this.getUserFollowing(i * limit);
-			console.log(blogInfo);
+			const blogs = await this.getUserFollowing(i * limit);
+			for (let j = 0; j < blogs.length; j++) {
+				const blog = blogs[j];
+				const blogInfoDetail = await this.getBlogInfo(blog.name);
+				blogCollection.insert(blogInfoDetail);
+			}
 		}
 	}
 }
@@ -108,7 +120,7 @@ async function test() {
 	services.init();
 	try {
 		let userInfo = await services.getUserInfo();
-		services.storeFollowingBlogs(userInfo);
+		// services.storeFollowingBlogs(userInfo);
 	} catch (e) {
 		console.log(e);
 	}
