@@ -5,6 +5,7 @@
 import tumblr from './API';
 const db = require('monk')('localhost/wst');
 const blogCollection = db.get('blogs');
+const postsCollection = db.get('posts');
 
 
 class UserInfo {
@@ -46,6 +47,11 @@ class BlogInfo {
 	'reply_conditions': number
 	'subscribed': boolean
 	'can_subscribe': boolean
+}
+
+interface BlogPostOptions {
+	limit: number
+	offset: number
 }
 
 export default class FetchService {
@@ -113,10 +119,34 @@ export default class FetchService {
 		}
 	}
 
-	async getPosts(blogInfo: BlogInfo) {
-		this.client.blogPosts(blogInfo.name, (e: Error, data: { response: { posts: any[] } }) => {
-			console.log(e, data);
+	async getPosts(blogInfo: BlogInfo, options: BlogPostOptions) {
+		this.client.blogPosts(blogInfo.name, (error: Error, data: { posts: any[] }) => {
+			if (error) {
+				console.log(error);
+			} else {
+				console.log(data.posts[0]);
+				postsCollection.insert(data.posts);
+			}
 		})
+	}
+	async fetchBlogPost(blogInfo: BlogInfo) {
+		return new Promise((resolve, reject) => {
+			const page = 1;
+			const pageSize = 20;
+			const maxPage = Math.ceil(blogInfo.total_posts / pageSize);
+			for (let i = 0; i < maxPage; i++) {
+				this.getPosts(blogInfo, { limit: 20, offset: i * pageSize })
+			}
+		});
+
+	}
+
+	async getBlogsFromDB() {
+		const data: BlogInfo[] = await blogCollection.find();
+		for (let i = 0; i < data.length; i++) {
+			console.log(data[i])
+			await this.fetchBlogPost(data[i]);
+		}
 	}
 }
 
@@ -127,8 +157,10 @@ async function test() {
 	try {
 		// let userInfo = await services.getUserInfo();
 		const blogInfo = new BlogInfo();
-		blogInfo.name = 'moyra12';
-		services.getPosts(blogInfo);
+		blogInfo.name = 'iamsoeasytocum';
+		blogInfo.total_posts = 1116;
+		// services.fetchBlogPost(blogInfo);
+		services.getBlogsFromDB();
 		// services.storeFollowingBlogs(userInfo);
 	} catch (e) {
 		console.log(e);
