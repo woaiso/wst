@@ -55,8 +55,8 @@ export default class FetchService {
 			this.client = tumblr.createClient({
 				consumer_key: 'CUNchAUJJA0xnZP0Wbb491ZCW4raIYeC8egzPUZZtIAhfmGbZh',
 				consumer_secret: 'Pmod34vwIIQy12OA7TjTZt11QYsrBypZJUw0Nkit8xNH6EMXxd',
-				token: 'pGJqrTwYaZ8sQRmxuq0L3eqdlbYoO0ofB9geB1TfSKq0krBulG',
-				token_secret: '3pFaYByMp25nILoFTWmU9sgVz5f7M7dWyS9OmKaJIXIhVt1MhI'
+				token: 'nNlOLjYmFv9seb3HBUh6qWtQuSyBgAvEliSltD59JJqNu8tqv5',
+				token_secret: 'ap7c8WNcyVTwxrB1RnNWHkmCE4HADv4aZzM14cbpg4Wvcf4H9t'
 			});
 		}
 	}
@@ -112,6 +112,12 @@ export default class FetchService {
 			}
 		}
 	}
+
+	async getPosts(blogInfo: BlogInfo) {
+		this.client.blogPosts(blogInfo.name, (e: Error, data: { response: { posts: any[] } }) => {
+			console.log(e, data);
+		})
+	}
 }
 
 
@@ -119,7 +125,10 @@ async function test() {
 	let services = new FetchService();
 	services.init();
 	try {
-		let userInfo = await services.getUserInfo();
+		// let userInfo = await services.getUserInfo();
+		const blogInfo = new BlogInfo();
+		blogInfo.name = 'moyra12';
+		services.getPosts(blogInfo);
 		// services.storeFollowingBlogs(userInfo);
 	} catch (e) {
 		console.log(e);
