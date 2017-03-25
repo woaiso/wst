@@ -214,7 +214,7 @@ export default class DataQuery extends React.Component<any, any>{
 		return (
 			<div>
 				<div className="filter-wrap">
-					<Form inline>
+					<Form layout="inline">
 						<FormItem label="标题">
 							<Input
 								placeholder="输入搜索的文字"
