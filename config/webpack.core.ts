@@ -4,6 +4,7 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 import { CWD, BUILD, CWD_NODE_MODULES, NODE_MODULES, SOURCE_PATH, STATIC_PATH } from './path';
+import theme from './../theme';
 
 import * as  ExtractTextPlugin from 'extract-text-webpack-plugin';
 
@@ -38,7 +39,7 @@ export class WebpackConfig {
 			NODE_MODULES
 		],
 		alias: {
-			'dat.gui':path.join(CWD_NODE_MODULES, 'dat.gui/build/dat.gui.js')
+			'dat.gui': path.join(CWD_NODE_MODULES, 'dat.gui/build/dat.gui.js')
 		}
 	}
 	module = {
@@ -73,7 +74,10 @@ export class WebpackConfig {
 						},
 						{
 							loader: 'less-loader',
-							options: { sourceMap: true }
+							options: {
+								sourceMap: true,
+								modifyVars: theme
+							}
 						}
 					]
 				})
