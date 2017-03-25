@@ -10,5 +10,3 @@ declare module "*.json" {
 declare module "tumblr.js" {
 	export function createClient(data: any)
 }
-
-declare function require(name: any): any;
