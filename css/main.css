@@ -3679,7 +3679,7 @@ html,body{
 .content-wrap{
 	margin: 0;
 	padding: 0 16px 16px;
-	min-height: 1000px;
+	overflow: auto;
 }
 
 .ant-layout-sider-collapsed .anticon {
