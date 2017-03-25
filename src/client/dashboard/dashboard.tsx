@@ -13,11 +13,18 @@ import {
 export default class DashBoard extends React.Component<any, any> {
 	state = {
 		collapsed: false,
-	};
+		contentHeight: 640
+	}
+	contentWrap: any
+	headerWrap: any
 	toggle = () => {
 		this.setState({
 			collapsed: !this.state.collapsed,
 		});
+	}
+	onResize = () => this.setState({ contentHeight: window.innerHeight - this.headerWrap.clientHeight })
+	componentDidMount() {
+		this.onResize();
 	}
 	render() {
 		return (
@@ -42,17 +49,25 @@ export default class DashBoard extends React.Component<any, any> {
 							</Menu>
 						</Sider>
 						<Layout style={{ background: '#FFF' }}>
-							<Header style={{ background: '#333', padding: 0 }}>
-								<Icon
-									className="trigger"
-									style={{ color: '#FFF' }}
-									type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-									onClick={this.toggle}
-								/>
-							</Header>
-							<Content className="content-wrap">
-								<DataQuery />
-							</Content>
+							<div ref={(rel) => this.headerWrap = rel}>
+								<Header style={{ background: '#333', padding: 0 }} >
+									<Icon
+										className="trigger"
+										style={{ color: '#FFF' }}
+										type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+										onClick={this.toggle}
+									/>
+								</Header>
+							</div>
+							<div
+								className="content-wrap"
+								ref={(rel) => this.contentWrap = rel}
+								style={{ height: this.state.contentHeight }}
+							>
+								<Content>
+									<DataQuery />
+								</Content>
+							</div>
 						</Layout>
 					</Layout>
 				</div>
