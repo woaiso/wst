@@ -20,7 +20,7 @@
       "tsx",
       "js"
     ],
-    "testPathDirs": [
+    "roots": [
       "./src/"
     ],
     "transform": {
