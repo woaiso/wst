@@ -106,8 +106,9 @@ export class WebpackConfig {
 				test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
 				loader: 'url-loader',
 				query: {
-					limit: '1000',
-					mimetype: 'application/svg+xml'
+					limit: 8192,
+					mimetype: 'image/svg+xml',
+					name: 'images/[hash:8].[ext]'
 				}
 			},
 			{

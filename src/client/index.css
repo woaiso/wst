@@ -24,6 +24,21 @@ html,body{
     width: 100%;
 }
 
+.mainBoard .logo{
+	width: 28px;
+	height: 48px;
+	display: inline-block;
+	background: url(images/logo.svg) no-repeat center center;
+	background-size: 100%;
+}
+
+.logo-text{
+	position: absolute;
+	width:1px;
+	height:1px;
+	overflow: hidden;
+}
+
 .global-nav{
 	max-width: 980px;
 	margin: 0 auto;
