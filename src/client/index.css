@@ -1,5 +1,4 @@
 html, body {
-	overflow: hidden;
 	margin:0;
 	padding:0;
 }
@@ -14,4 +13,29 @@ html,body{
 
 :fullscreen a {
     display: flex
+}
+
+
+#header{
+    background: rgba(0, 0, 0, 0.8);
+		color:#FFF;
+    height: 48px;
+		line-height: 48px;
+    width: 100%;
+}
+
+.global-nav{
+	max-width: 980px;
+	margin: 0 auto;
+}
+
+.slide{
+	height:480px;
+}
+.slide:nth-child(odd){
+	background: white;
+}
+
+.slide:nth-child(even){
+	background: black;
 }
