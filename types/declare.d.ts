@@ -7,6 +7,10 @@ declare module "*.json" {
 	export const version: string;
 }
 
+declare module "*.svg" {
+
+}
+
 declare module "tumblr.js" {
 	export function createClient(data: any)
 }

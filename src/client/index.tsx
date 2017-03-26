@@ -4,7 +4,8 @@ import { Button, Row, Col } from 'antd';
 import './index.css';
 import LoginPage from './pages/login';
 import DashBoard from './dashboard';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import logo from './images/logo.svg';
 
 class Bootstrap extends React.Component<any, any> {
 	render() {
@@ -25,7 +26,9 @@ const Home = () => (
 		<header id="header" className="clearfix">
 			<nav className="global-nav">
 				<Row>
-					<Col xs={2} sm={4} md={6} lg={8} xl={10}>Logo</Col>
+					<Col xs={2} sm={4} md={6} lg={8} xl={10}>
+						<img src={logo as string} height="48" alt="Logo" />
+					</Col>
 					<Col xs={20} sm={16} md={12} lg={8} xl={4}>Title</Col>
 					<Col xs={2} sm={4} md={6} lg={8} xl={10}><Link to="/dashboard"><Button type="dashed" ghost>DashBoard</Button></Link></Col>
 				</Row>
