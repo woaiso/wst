@@ -10,6 +10,3 @@ WST is an woaiso tools kit
 - enzyme
 - postcss
 
-## todos
-- [x] add babel
-- [ ] test with webpack
