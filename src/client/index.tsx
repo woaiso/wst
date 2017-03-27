@@ -28,7 +28,7 @@ const Home = () => (
 					<Col xs={2} sm={4} md={6} lg={8} xl={10}>
 						<a href="/" title="logo">
 							<span className="logo" />
-							<span className="logo-text">我爱搜</span>
+							<span className="logo-text">柠檬</span>
 						</a>
 					</Col>
 					<Col xs={20} sm={16} md={12} lg={8} xl={4}>Title</Col>
@@ -39,8 +39,6 @@ const Home = () => (
 			</nav>
 		</header>
 		<section>
-			<div className="slide" />
-			<div className="slide" />
 			<div className="slide" />
 			<div className="slide" />
 		</section>
