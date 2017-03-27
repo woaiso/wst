@@ -6,13 +6,15 @@ import './index.css';
 import DashBoard from './dashboard';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
+const basePath = process.env.NODE_ENV === 'production' ? '/wst' : '';
+
 class Bootstrap extends React.Component<any, any> {
 	render() {
 		return (
 			<Router>
 				<div>
-					<Route exact path="/" component={Home} />
-					<Route path="/dashboard" component={DashBoard} />
+					<Route exact path={`${basePath}/`} component={Home} />
+					<Route path={`${basePath}/dashboard`} component={DashBoard} />
 				</div>
 			</Router>
 		);
@@ -26,14 +28,14 @@ const Home = () => (
 			<nav className="global-nav">
 				<Row>
 					<Col xs={2} sm={4} md={6} lg={8} xl={10}>
-						<a href="/" title="logo">
+						<a href={`${basePath}/`} title="logo">
 							<span className="logo" />
 							<span className="logo-text">柠檬</span>
 						</a>
 					</Col>
 					<Col xs={20} sm={16} md={12} lg={8} xl={4}>Title</Col>
 					<Col xs={2} sm={4} md={6} lg={8} xl={10} className="pull-right">
-						<Link to="/dashboard"><Button type="dashed" ghost>DashBoard</Button></Link>
+						<Link to={`${basePath}/dashboard`}><Button type="dashed" ghost>DashBoard</Button></Link>
 					</Col>
 				</Row>
 			</nav>
@@ -41,7 +43,7 @@ const Home = () => (
 		<section>
 			<div className="slide" />
 			<div className="slide" >
-				<Link to="/dashboard"><Button size="large" ghost>打开操作中心</Button></Link>
+				<Link to={`${basePath}/dashboard`}><Button size="large" ghost>打开操作中心</Button></Link>
 			</div>
 		</section>
 	</div>
