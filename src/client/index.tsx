@@ -40,7 +40,9 @@ const Home = () => (
 		</header>
 		<section>
 			<div className="slide" />
-			<div className="slide" />
+			<div className="slide" >
+				<Link to="/dashboard"><Button size="large" ghost>打开操作中心</Button></Link>
+			</div>
 		</section>
 	</div>
 )
