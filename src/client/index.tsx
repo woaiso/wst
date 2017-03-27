@@ -23,7 +23,6 @@ class Bootstrap extends React.Component<any, any> {
 
 const Home = () => (
 	<div className="mainBoard">
-		{/*<LoginPage />*/}
 		<header id="header" className="clearfix">
 			<nav className="global-nav">
 				<Row>
