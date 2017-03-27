@@ -11,6 +11,11 @@ html,body{
   box-sizing: content-box;
 }
 
+.pull-right{
+	display: flex;
+	justify-content: flex-end;
+}
+
 :fullscreen a {
     display: flex
 }
@@ -19,24 +24,25 @@ html,body{
 #header{
     background: rgba(0, 0, 0, 0.8);
 		color:#FFF;
-    height: 48px;
-		line-height: 48px;
+    height: 64px;
+		line-height: 64px;
     width: 100%;
 }
 
 .mainBoard .logo{
 	width: 28px;
-	height: 48px;
+	height: 64px;
 	display: inline-block;
 	background: url(images/logo.svg) no-repeat center center;
 	background-size: 100%;
 }
 
 .logo-text{
-	position: absolute;
-	width:1px;
-	height:1px;
-	overflow: hidden;
+		display: inline-block;
+    overflow: hidden;
+    color: white;
+    font-size: 1rem;
+    padding-left: 8px;
 }
 
 .global-nav{

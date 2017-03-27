@@ -26,12 +26,15 @@ const Home = () => (
 			<nav className="global-nav">
 				<Row>
 					<Col xs={2} sm={4} md={6} lg={8} xl={10}>
-						<a className="logo" href="/" title="logo">
-							<span className="logo-text">woaiso</span>
+						<a href="/" title="logo">
+							<span className="logo" />
+							<span className="logo-text">我爱搜</span>
 						</a>
 					</Col>
 					<Col xs={20} sm={16} md={12} lg={8} xl={4}>Title</Col>
-					<Col xs={2} sm={4} md={6} lg={8} xl={10}><Link to="/dashboard"><Button type="dashed" ghost>DashBoard</Button></Link></Col>
+					<Col xs={2} sm={4} md={6} lg={8} xl={10} className="pull-right">
+						<Link to="/dashboard"><Button type="dashed" ghost>DashBoard</Button></Link>
+					</Col>
 				</Row>
 			</nav>
 		</header>
