@@ -44,7 +44,7 @@ body {
 	background-size: 100%;
 }
 
-.logo-text {
+.mainBoard .logo-text {
 	display: inline-block;
 	overflow: hidden;
 	color: white;
