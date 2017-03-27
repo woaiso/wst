@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Button, Row, Col } from 'antd';
 import './index.css';
-import LoginPage from './pages/login';
+// import LoginPage from './pages/login';
 import DashBoard from './dashboard';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 

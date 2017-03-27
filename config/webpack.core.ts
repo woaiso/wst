@@ -23,7 +23,7 @@ export class WebpackConfig {
 	devtool = 'source-map' as 'source-map'
 	entry = {
 		main: 'index.tsx',
-		vendor: ['react', 'react-dom', 'three']
+		vendor: ['react', 'react-dom']
 	}
 	output = {
 		path: BUILD,
