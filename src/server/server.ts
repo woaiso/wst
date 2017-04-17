@@ -17,6 +17,7 @@ const compression = require('compression')
 import { bootup } from './mock/bootup';
 
 import { IndexRoute } from './routes/index';
+import PostController from './api/controller/postController';
 
 const viewsPath = path.resolve(process.cwd(), 'dist/client');
 
@@ -105,6 +106,7 @@ export class Server {
 		router = express.Router();
 		//IndexRoute
 		IndexRoute.create(router);
+		new PostController().create(router);
 		//use router middleware
 		this.app.use(router);
 	}

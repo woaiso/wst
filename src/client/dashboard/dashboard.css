@@ -1,0 +1,77 @@
+.trigger {
+	font-size: 18px;
+	line-height: 64px;
+	padding: 0 16px;
+	cursor: pointer;
+	transition: color .3s;
+}
+
+.trigger:hover {
+	color: #108ee9;
+}
+
+.dashboard .logo {
+	height: 64px;
+	padding-left: 16px;
+	line-height: 64px;
+	display: flex;
+	align-items: center;
+	transition: all .3s;
+}
+
+.dashboard .logo .icon {
+	width: 32px;
+	height: 44px;
+	margin-right: 8px;
+	display: inline-block;
+	background: url(../images/logo.svg) no-repeat center center;
+	background-size: 100%;
+}
+
+.dashboard .logo .logo-text {
+	font-size: 1.6rem;
+	color: white;
+	flex: 1;
+	overflow: hidden;
+	white-space: nowrap;
+	transition: all .3s;
+}
+
+.content-wrap {
+	margin: 0;
+	padding: 0 16px 16px;
+	overflow: auto;
+}
+
+.ant-layout-sider-collapsed .anticon {
+	font-size: 16px;
+}
+
+.ant-layout-sider-collapsed .nav-text {
+	display: none;
+}
+
+.custom-filter-dropdown {
+	padding: 8px;
+	border-radius: 6px;
+	background: #fff;
+	box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+}
+
+.custom-filter-dropdown input {
+	width: 130px;
+	margin-right: 8px;
+}
+
+.expanded-row-wrap {
+	max-height: 480px;
+	overflow: auto;
+}
+
+.expanded-row-wrap img {
+	display: block;
+}
+
+.dashboard a {
+	color: #046696;
+}

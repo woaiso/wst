@@ -1,23 +1,63 @@
-
-:root {
-  --font-text: "FF DIN", sans-serif;
-  --font-weight: 300;
-  --line-height: 1.5;
-  background: #000;
-  color: rgba(127,255,255,0.75);
-	overflow: hidden;
-	margin:0;
-	padding:0;
-}
-html,body{
-	margin:0;
+html,
+body {
+	margin: 0;
 	padding: 0;
 }
-.container{
-  display: flex;
-  box-sizing: content-box;
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	display: flex;
+	box-sizing: content-box;
+}
+
+.pull-right {
+	display: flex;
+	justify-content: flex-end;
 }
 
 :fullscreen a {
-    display: flex
+	display: flex;
+}
+
+#header {
+	background: rgba(0, 0, 0, 0.8);
+	color: #fff;
+	height: 64px;
+	line-height: 64px;
+	width: 100%;
+}
+
+.mainBoard {
+    background: linear-gradient(135deg,#4285f4,#c8c8d0);
+}
+
+.mainBoard .logo {
+	width: 28px;
+	height: 64px;
+	display: inline-block;
+	background: url(images/logo.svg) no-repeat center center;
+	background-size: 100%;
+}
+
+.mainBoard .logo-text {
+	display: inline-block;
+	overflow: hidden;
+	color: white;
+	font-size: 1rem;
+	padding-left: 8px;
+}
+
+.global-nav {
+	max-width: 1024px;
+	margin: 0 auto;
+}
+
+.slide {
+	height: 480px;
+	text-align: center;
 }

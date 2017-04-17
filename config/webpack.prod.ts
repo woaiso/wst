@@ -43,8 +43,7 @@ class WebpackProd {
 			chunks: ['vendor', 'main'],
 			chunksSortMode: 'auto', // Allows to control how chunks should be sorted before they are included to the html. Allowed values: 'none' | 'auto' | 'dependency' | {function} - default: 'auto'
 			excludeChunks: ['unit-test'],
-			xhtml: false, //If true render the link tags as self-closing, XHTML compliant. Default is false,
-			environment: 'prod'
+			xhtml: false //If true render the link tags as self-closing, XHTML compliant. Default is false,
 		}),
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {

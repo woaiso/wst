@@ -16,7 +16,7 @@
 		"suppressImplicitAnyIndexErrors": true,
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
-		"noUnusedParameters": true,
+		"noUnusedParameters": false,
 		"alwaysStrict": true,
 		"newLine": "LF"
 	},

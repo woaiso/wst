@@ -248,9 +248,11 @@ export default class LoginPage extends React.Component<any, any>{
 		f1_1.add(this.boxMesh.scale, 'x', -5, 5);
 		f1_1.add(this.boxMesh.scale, 'y', -5, 5);
 		f1_1.add(this.boxMesh.scale, 'z', -5, 5);
-		const f2  = gui.addFolder('Player');
+		const f2 = gui.addFolder('Player');
 		f2.add(sound, 'play');
 		f2.add(sound, 'pause');
+		f1.open();
+		f2.open();
 
 	}
 	//监控按键
@@ -375,7 +377,7 @@ export default class LoginPage extends React.Component<any, any>{
 
 	render() {
 		return (
-			<div ref={this.rootElement} />
+			<div ref={this.rootElement} style={{ position: 'absolute' }} />
 		);
 	}
 }

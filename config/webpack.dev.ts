@@ -18,8 +18,9 @@ class WebpackDev {
 
 	devServer = {
 		contentBase: path.join(CWD, 'dist/client'),
+		historyApiFallback: true,
 		compress: true,
-		port: 9000,
+		port: 8080,
 		hot: true,
 		quiet: false,
 		stats: {
@@ -63,6 +64,12 @@ class WebpackDev {
 			version: false,
 			// Add warnings
 			warnings: false
+		},
+		proxy: {
+			'/api': {
+				target: 'http://localhost:3001',
+				pathRewrite: { '^/': '' }
+			}
 		}
 	}
 
@@ -87,9 +94,9 @@ class WebpackDev {
 			hash: true, //if true then append a unique webpack compilation hash to all included scripts and CSS files. This is useful for cache busting.
 			cache: true, //true (default) try to emit the file only if it was changed.
 			showErrors: true, // if true (default) errors details will be written into the HTML page.
-			chunks: ['vendor', 'main'],
+			chunks: [ 'vendor', 'main' ],
 			chunksSortMode: 'auto', // Allows to control how chunks should be sorted before they are included to the html. Allowed values: 'none' | 'auto' | 'dependency' | {function} - default: 'auto'
-			excludeChunks: ['unit-test'],
+			excludeChunks: [ 'unit-test' ],
 			xhtml: false //If true render the link tags as self-closing, XHTML compliant. Default is false
 		}),
 		new HotModuleReplacementPlugin(),
