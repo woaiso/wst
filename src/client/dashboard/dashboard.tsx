@@ -38,7 +38,7 @@ export default class DashBoard extends React.Component<any, any> {
 						>
 							<div className="logo">
 								<span className="icon" />
-								<span className="logo-text" style={{display: this.state.collapsed ? 'none':'block'}}>柠檬DB</span>
+								<span className="logo-text" style={{display: this.state.collapsed ? 'none':'block'}}>柠檬监控</span>
 							</div>
 							<Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
 								<Menu.Item key="1">

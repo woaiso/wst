@@ -132,12 +132,12 @@ export default class Video {
 	}
 }
 
-// const video = new Video();
-// const testUrl = 'http://91.t9m.space/viewthread.php?tid=202723';
+const video = new Video();
+const testUrl = 'http://91.p9a.space/viewthread.php?tid=202723';
 
 // fetchWithProxy(testUrl)
 // 	.then((html) => {
 // 		video.extractArticle(html, { url: testUrl });
 // 	});
 
-// new Video().init();
+new Video().init();
