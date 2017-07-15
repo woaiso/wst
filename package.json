@@ -126,6 +126,6 @@
     "express": "^4.15.2",
     "method-override": "^2.3.8",
     "morgan": "^1.7.0",
-    "react-router-dom": "next"
+    "react-router-dom": "^4.1.1"
   }
 }
