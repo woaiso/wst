@@ -126,7 +126,6 @@ export default class Video {
 		post.text = postElement.find('.t_msgfont').text().replace(/\r\n\r\n/g, '');
 		post.images = images;
 
-		console.log(JSON.stringify(post, null, 2));
 		db.get('post').insert(post);
 		return post;
 	}
@@ -134,10 +133,4 @@ export default class Video {
 
 const video = new Video();
 const testUrl = 'http://91.p9a.space/viewthread.php?tid=202723';
-
-// fetchWithProxy(testUrl)
-// 	.then((html) => {
-// 		video.extractArticle(html, { url: testUrl });
-// 	});
-
 new Video().init();
