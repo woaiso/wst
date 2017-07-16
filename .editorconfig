@@ -5,24 +5,12 @@
 root = true
 
 [*]
-indent_style = tab
+indent_style = space
+indent_size = 2
 end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
+insert_final_newline = false
 
 [*.{js,ts,tsx,css}]
-indent_style = tab
 insert_final_newline = true
-
-[*.json]
-insert_final_newline = false
-
-[package.json]
-insert_final_newline = false
-
-[*.md]
-indent_style=space
-
-[{package.json,*.yml}]
-indent_style = space
-indent_size = 2

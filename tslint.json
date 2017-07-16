@@ -5,7 +5,7 @@
 	"rules": {
 		"indent": [
 			true,
-			"tabs"
+			"space"
 		],
 		"arrow-parens": true,
 		"no-unused-expression": true,

@@ -9,15 +9,15 @@ var debug = require('debug')('express:server');
 var http = require('http');
 
 //create http server
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3001
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+var server_port = 3001;
+var server_ip_address = '0.0.0.0';
 
 var app = Server.bootstrap().app;
 app.set('port', server_port);
 var httpServer = createServer(app);
 
 //listen on provided ports
-httpServer.listen(server_port, server_ip_address);
+httpServer.listen(server_port, server_ip_address, ()=>{});
 
 //add error handler
 httpServer.on('error', onError);
