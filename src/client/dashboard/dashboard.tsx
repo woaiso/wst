@@ -15,16 +15,10 @@ export default class DashBoard extends React.Component<any, any> {
 		collapsed: false,
 		contentHeight: 640
 	}
-	contentWrap: any
-	headerWrap: any
 	toggle = () => {
 		this.setState({
 			collapsed: !this.state.collapsed,
 		});
-	}
-	onResize = () => this.setState({ contentHeight: window.innerHeight - this.headerWrap.clientHeight })
-	componentDidMount() {
-		this.onResize();
 	}
 	render() {
 		return (
@@ -36,8 +30,8 @@ export default class DashBoard extends React.Component<any, any> {
 							collapsible
 							collapsed={this.state.collapsed}
 						>
-							<div className="logo">
-								<span className="icon" />
+							<div className="logo" onClick={this.toggle}>
+								<span className="icon"/>
 								<span className="logo-text" style={{display: this.state.collapsed ? 'none':'block'}}>柠檬监控</span>
 							</div>
 							<Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
@@ -52,20 +46,8 @@ export default class DashBoard extends React.Component<any, any> {
 							</Menu>
 						</Sider>
 						<Layout style={{ background: '#FFF' }}>
-							<div ref={(rel) => this.headerWrap = rel}>
-								<Header style={{ background: '#333', padding: 0 }} >
-									<Icon
-										className="trigger"
-										style={{ color: '#FFF' }}
-										type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-										onClick={this.toggle}
-									/>
-								</Header>
-							</div>
 							<div
 								className="content-wrap"
-								ref={(rel) => this.contentWrap = rel}
-								style={{ height: this.state.contentHeight }}
 							>
 								<Content>
 									<DataQuery />

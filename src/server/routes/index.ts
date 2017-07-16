@@ -16,14 +16,14 @@ export class IndexRoute extends BaseRoute {
    * @method create
    * @static
    */
-	public static create(router: Router) {
+	public static create( router: Router ) {
 		//log
-		console.log('[IndexRoute::create] Creating index route.');
+		console.log( '[IndexRoute::create] Creating index route.' );
 
 		//add home page route
-		router.get('/', (req: Request, res: Response, next: NextFunction) => {
-			new IndexRoute().index(req, res, next);
-		});
+		router.get( '/', ( req: Request, res: Response, next: NextFunction ) => {
+			new IndexRoute().index( req, res, next );
+		} );
 	}
 
   /**
@@ -45,7 +45,7 @@ export class IndexRoute extends BaseRoute {
    * @param res {Response} The express Response object.
    * @next {NextFunction} Execute the next method.
    */
-	public index(req: Request, res: Response, _next: NextFunction) {
+	public index( req: Request, res: Response, _next: NextFunction ) {
 		//set custom title
 		this.title = 'Home | Tour of Heros';
 
@@ -55,6 +55,6 @@ export class IndexRoute extends BaseRoute {
 		};
 
 		//render template
-		this.render(req, res, 'index', options);
+		this.render( req, res, 'index', options );
 	}
 }
