@@ -1,4 +1,4 @@
-const db = require('monk')('localhost/wst');
+const db = require('monk')('127.0.0.1/wst');
 
 export interface ListData<T> {
 	list: T[],

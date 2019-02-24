@@ -3,7 +3,7 @@
  */
 //基础库
 import tumblr from './API';
-const db = require('monk')('localhost/wst');
+const db = require('monk')('127.0.0.1/wst');
 const blogCollection = db.get('blogs');
 const postsCollection = db.get('posts');
 
@@ -120,6 +120,7 @@ export default class FetchService {
 	}
 
 	async getPosts(blogInfo: BlogInfo, options: BlogPostOptions) {
+    console.log('hahah');
 		this.client.blogPosts(blogInfo.name, (error: Error, data: { posts: any[] }) => {
 			if (error) {
 				console.log(error);
@@ -159,8 +160,8 @@ async function test() {
 		const blogInfo = new BlogInfo();
 		blogInfo.name = 'iamsoeasytocum';
 		blogInfo.total_posts = 1116;
-		// services.fetchBlogPost(blogInfo);
-		services.getBlogsFromDB();
+		services.fetchBlogPost(blogInfo);
+		// services.getBlogsFromDB();
 		// services.storeFollowingBlogs(userInfo);
 	} catch (e) {
 		console.log(e);

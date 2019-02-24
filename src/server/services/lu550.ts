@@ -1,0 +1,1 @@
+VIDEO_ID=10542  && ffmpeg -c copy $VIDEO_ID.mp4 -i `curl -d "id=$VIDEO_ID" -H "X-Requested-With:XMLHttpRequest" http://www.lu550.com/api/payvideo.html | json data.videoInfo.url | xargs -n1 curl | sed -n 3p | awk '{print "http://www.91gxflvip.com:2100"$1}'`
